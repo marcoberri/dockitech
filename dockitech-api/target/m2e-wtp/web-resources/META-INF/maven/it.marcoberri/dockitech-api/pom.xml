@@ -118,7 +118,7 @@
 
 		<dependency>
 			<groupId>it.marcoberri</groupId>
-			<artifactId>dockitech-model</artifactId>
+			<artifactId>dockitech-adapter</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

@@ -1,6 +1,7 @@
 package it.marcoberri.adapter;
 
 import it.marcoberri.dockitech.model.DTClient;
+import it.marcoberri.dockitech.model.DTDocument;
 import it.marcoberri.dockitech.model.DTEncryptionMethod;
 import it.marcoberri.dockitech.model.DTSecurityGroup;
 import it.marcoberri.dockitech.model.DTSecurityUser;
@@ -13,10 +14,13 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
 import com.mongodb.MongoClient;
+import com.mongodb.gridfs.GridFS;
 
 public class MongoAdapter extends AbstractAdapter {
 
     private Datastore datastore;
+    
+    private GridFS gridFS;
 
     @Override
     public void initAdapter(Properties p) {
@@ -28,6 +32,9 @@ public class MongoAdapter extends AbstractAdapter {
 	    final Morphia morphia = new Morphia();
 	    morphia.mapPackage("it.marcoberri.dockitech.model");
 	    datastore = morphia.createDatastore(mongoClient, "test");
+	    
+	    this.gridFS = new GridFS(datastore.getDB(), "files");
+	    
 	} catch (UnknownHostException e) {
 	    e.printStackTrace();
 	}
@@ -59,6 +66,7 @@ public class MongoAdapter extends AbstractAdapter {
 	enc = datastore.createQuery(DTEncryptionMethod.class).filter("encryptClass =", "it.marcoberri.dockitech.security.Base64Security").get();
 	
 	final DTSecurityGroup groupAdmin = new DTSecurityGroup();
+	groupAdmin.setEncryptClass(enc);
 	groupAdmin.setTitle("ADMIN");
 	datastore.save(groupAdmin);
 	
@@ -72,7 +80,7 @@ public class MongoAdapter extends AbstractAdapter {
 	datastore.save(userAdmin);
 
 	client.addSecurityGroup(groupAdmin);
-	
+	client.setEncryptClass(enc);
 	datastore.save(client);
 
 	
@@ -88,6 +96,22 @@ public class MongoAdapter extends AbstractAdapter {
 	if (datastore == null) {
 	    initAdapter(null);
 	}
+	
+	datastore.getMongo().dropDatabase("test");
+	
+	
+	
+    }
+    
+    public DTDocument addDocument(DTDocument doc){
+
+	if (datastore == null) {
+	    initAdapter(null);
+	}
+	
+	datastore.save(doc);
+	
+	return doc;
 	
     }
 

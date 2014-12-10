@@ -3,21 +3,31 @@ package it.marcoberri.dockitech;
 import junit.framework.Assert;
 import it.marcoberri.adapter.MongoAdapter;
 import it.marcoberri.dockitech.model.DTClient;
+import it.marcoberri.dockitech.model.DTDocument;
 
 import org.junit.Test;
 
-public class AdminTest {
+public class ClientTest {
 
     @Test
-    public void generateAndDeleteWorld(){
+    public void addDocument(){
+	
 	MongoAdapter adapter = new MongoAdapter();
 	final DTClient client = new DTClient();
 	client.setTitle("WORLD");
 	DTClient result = adapter.createWorld(client);
-	Assert.assertNotNull(result);
+	Assert.assertNotNull(result);	
 	
-	adapter.dropWorld();
 	
+	
+	DTDocument doc = new DTDocument();
+	doc.setEncryptClass(client.getEncryptClass());
+	doc.setTitle("first Document data");
+	doc = adapter.addDocument(doc);
+	
+	Assert.assertNotNull(doc);
+	
+	//adapter.dropWorld();
     }
     
     
