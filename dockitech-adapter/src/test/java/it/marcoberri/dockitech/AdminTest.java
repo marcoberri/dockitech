@@ -1,6 +1,6 @@
 package it.marcoberri.dockitech;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import it.marcoberri.adapter.MongoAdapter;
 import it.marcoberri.dockitech.model.DTClient;
 
@@ -15,7 +15,6 @@ public class AdminTest {
 	client.setTitle("WORLD");
 	DTClient result = adapter.createWorld(client);
 	Assert.assertNotNull(result);
-	
 	adapter.dropWorld();
 	
     }

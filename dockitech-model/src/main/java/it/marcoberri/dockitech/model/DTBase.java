@@ -9,12 +9,50 @@ import org.mongodb.morphia.annotations.Reference;
 
 public class DTBase {
 
+   public DTBase(DTEncryptionMethod encryptClass) {
+	super();
+	this.encryptClass = encryptClass;
+    }
+
     @Id
     private ObjectId id;
 
     @Reference
     private DTEncryptionMethod encryptClass;
 
+    
+    public byte[] encrypt(byte[] plain, String criptClass) {
+	
+	try {
+	    final Class<?> clazz = Class.forName(criptClass);
+	    final Method method = clazz.newInstance().getClass().getMethod("encrypt", byte[].class);
+	    plain = (byte[]) method.invoke(clazz.newInstance(), plain);
+	} catch (final ClassNotFoundException e) {
+	    e.printStackTrace();
+
+	} catch (final InstantiationException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final IllegalAccessException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final NoSuchMethodException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final SecurityException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final IllegalArgumentException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final InvocationTargetException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+
+	return plain;
+    }
+    
     public String encrypt(String plain, String criptClass) {
 
 	try {
@@ -48,6 +86,41 @@ public class DTBase {
 
     }
 
+    
+    public byte[] decrypt(byte[] cript, String criptClass) {
+
+	try {
+	    final Class<?> clazz = Class.forName(criptClass);
+	    final Method method = clazz.newInstance().getClass().getMethod("decrypt", String.class);
+	    cript = (byte[]) method.invoke(clazz.newInstance(), cript);
+	} catch (final ClassNotFoundException e) {
+	    e.printStackTrace();
+
+	} catch (final InstantiationException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final IllegalAccessException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final NoSuchMethodException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final SecurityException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final IllegalArgumentException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (final InvocationTargetException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+
+	return cript;
+
+    }
+
+    
     public String decrypt(String cript, String criptClass) {
 
 	try {

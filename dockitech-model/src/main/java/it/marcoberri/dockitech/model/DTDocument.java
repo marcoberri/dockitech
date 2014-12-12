@@ -4,6 +4,8 @@ import it.marcoberri.dockitech.resources.CollectionNames;
 import it.marcoberri.dockitech.resources.FieldsName;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,10 @@ import org.mongodb.morphia.annotations.Version;
 
 @Entity(value = CollectionNames.COLLECTION_DOCUMENT, noClassnameStored = true)
 public class DTDocument extends DTBase {
+
+    public DTDocument(DTEncryptionMethod encryptClass) {
+	super(encryptClass);
+    }
 
     @Property(FieldsName.DOC_TITLE)
     private String title;
@@ -51,6 +57,7 @@ public class DTDocument extends DTBase {
 
     @Property(FieldsName.DOC_PUBLISH)
     private boolean publish = false;
+    
 
     @Reference(FieldsName.DOC_PUBLISHER)
     private DTSecurityUser publisher;
@@ -58,17 +65,39 @@ public class DTDocument extends DTBase {
     @Property(FieldsName.DOC_PUBLISHER_DATE)
     private Date publisherDate = new Date();
 
+
+    @Property(FieldsName.DOC_CONTENT_TYPE)
+    private String contentType;
+
+    @Property(FieldsName.DOC_FILE_NAME)
+    private String fileName;
+
     @Property(FieldsName.DOC_FILE_ID)
     private ObjectId fileId;
 
     @Transient
     private File file;
 
+    @Transient
+    private byte[] byteFile;
+    
     @Version(FieldsName.DOC_VERSION)
     private Long version;
 
     @Property(FieldsName.DOC_HISTORY)
     private List<DTHistory> history;
+
+    public String getFileName() {
+        return decrypt(fileName,this.getEncryptClass().getEncryptClass());
+    }
+
+    public String getFileNameCrypt() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+	this.fileName = encrypt(fileName,this.getEncryptClass().getEncryptClass());
+    }
 
     public void addSecurityGroup(DTSecurityGroup group) {
 	if (this.securityGroup == null)
@@ -78,6 +107,19 @@ public class DTDocument extends DTBase {
 
     public List<DTSecurityGroup> getSecurityGroup() {
 	return securityGroup;
+    }
+
+
+    public String getContentType() {
+        return decrypt(this.contentType,this.getEncryptClass().getEncryptClass());
+    }
+
+    public String getContentTypeCrypt() {
+        return this.contentType;
+    }
+
+    public void setContentType(String contentType) {
+	this.contentType = encrypt(contentType,this.getEncryptClass().getEncryptClass());
     }
 
     public void setSecurityGroup(List<DTSecurityGroup> securityGroup) {
@@ -98,12 +140,26 @@ public class DTDocument extends DTBase {
 	this.securityUser = securityUser;
     }
 
+    public byte[] getByteFile() {
+	return decrypt(byteFile,this.getEncryptClass().getEncryptClass());
+    }
+
+    public void setByteFile(byte[] byteFile) {
+	this.byteFile = encrypt(byteFile,this.getEncryptClass().getEncryptClass());
+    }
+
     public File getFile() {
 	return file;
     }
 
     public void setFile(File file) {
 	this.file = file;
+	setFileName(file.getName());
+	try {
+	    setContentType(Files.probeContentType(file.toPath()));
+	} catch (final IOException e) {
+	    //TODO Log
+	}
     }
 
     public Date getCretorDate() {
@@ -155,7 +211,7 @@ public class DTDocument extends DTBase {
 	if (this.fileId != null) {
 	    addHistory(this.fileId, this.version);
 	}
-	this.version += 1;
+	//this.version += 1;
 	this.fileId = fileId;
     }
 
@@ -242,7 +298,7 @@ public class DTDocument extends DTBase {
 
     public void addTag(String value, Integer size) {
 
-	DTTag t = new DTTag();
+	final DTTag t = new DTTag(this.getEncryptClass());
 	t.setValue(value);
 	t.setSize(size);
 	if (this.tags == null)

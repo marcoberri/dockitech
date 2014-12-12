@@ -17,13 +17,19 @@ import org.mongodb.morphia.utils.IndexDirection;
 @Entity(value = CollectionNames.SYSTEM_CLIENT, noClassnameStored = true)
 public class DTClient extends DTBase {
 
+    public DTClient(DTEncryptionMethod encryptClass) {
+	super(encryptClass);
+    }
+
     @Indexed(value = IndexDirection.ASC, unique = true, dropDups = true)
     @Property(FieldsName.CLIENT_TITLE)
     private String title;
 
-    @Reference
+    @Reference(FieldsName.CLIENT_SECURITY_GROUP)
     private List<DTSecurityGroup> securityGroup;
 
+    
+    @Property(FieldsName.CLIENT_LAST_SYSTEM_UPDATE)
     private Date lastsystemUpdate = new Date();
 
     public List<DTSecurityGroup> getSecurityGroup() {

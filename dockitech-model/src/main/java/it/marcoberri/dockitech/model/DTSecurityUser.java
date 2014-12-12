@@ -1,6 +1,7 @@
 package it.marcoberri.dockitech.model;
 
 import it.marcoberri.dockitech.resources.CollectionNames;
+import it.marcoberri.dockitech.resources.FieldsName;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,24 +17,34 @@ import org.mongodb.morphia.utils.IndexDirection;
 @Entity(value=CollectionNames.SECURITY_USER,noClassnameStored = true)
 public class DTSecurityUser extends DTBase {
     
+    public DTSecurityUser(DTEncryptionMethod encryptClass) {
+	super(encryptClass);
+    }
+
     @Indexed(value=IndexDirection.ASC, unique=true, dropDups=true)
+    @Property(FieldsName.SECURITYUSER_NICKNAME)
     private String nickname;
     
+    @Property(FieldsName.SECURITYUSER_NAME)
     private String name;
     
+    @Property(FieldsName.SECURITYUSER_USERNAME)
     private String surname;
     
+    @Property(FieldsName.SECURITYUSER_PASSWORD)
     private String password;
     
     
-    @Reference
+    @Reference(FieldsName.SECURITYUSER_CLIENT)
    private DTClient client;
     
-    @Reference
+    @Reference(FieldsName.SECURITYUSER_GROUP)
     private List<DTSecurityGroup> securityGroup;
     
+    @Property(FieldsName.SECURITYUSER_LASTACCESS)
     private Date lastAccess = new Date();
     
+    @Property(FieldsName.SECURITYUSER_LAST_SYSTEM_UPDATE)
     private Date lastsystemUpdate = new Date();
     
 
@@ -57,9 +68,13 @@ public class DTSecurityUser extends DTBase {
     public String getNickname() {
         return decrypt(nickname,this.getEncryptClass().getEncryptClass());
     }
+    
+    public String getNicknameCrypt() {
+        return nickname;
+    }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+	this.nickname = encrypt(nickname,this.getEncryptClass().getEncryptClass());
     }
 
 

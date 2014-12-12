@@ -5,20 +5,26 @@ import it.marcoberri.dockitech.model.DTDocument;
 import it.marcoberri.dockitech.model.DTEncryptionMethod;
 import it.marcoberri.dockitech.model.DTSecurityGroup;
 import it.marcoberri.dockitech.model.DTSecurityUser;
+import it.marcoberri.dockitech.resources.CollectionNames;
+import it.marcoberri.dockitech.resources.FieldsName;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
 import com.mongodb.MongoClient;
 import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
 
 public class MongoAdapter extends AbstractAdapter {
 
     private Datastore datastore;
+    
+    private String defaultEncrypt = "it.marcoberri.dockitech.security.Base64Security";
     
     private GridFS gridFS;
 
@@ -33,13 +39,27 @@ public class MongoAdapter extends AbstractAdapter {
 	    morphia.mapPackage("it.marcoberri.dockitech.model");
 	    datastore = morphia.createDatastore(mongoClient, "test");
 	    
-	    this.gridFS = new GridFS(datastore.getDB(), "files");
+	    this.gridFS = new GridFS(datastore.getDB(), CollectionNames.COLLECTION_FILES);
 	    
-	} catch (UnknownHostException e) {
+	} catch (final UnknownHostException e) {
 	    e.printStackTrace();
 	}
     }
 
+    @Override
+    public DTEncryptionMethod getEncryptMethodByClass(String classname){
+	if(classname == null)
+	    classname = defaultEncrypt;
+	
+	final DTEncryptionMethod enc = new DTEncryptionMethod();
+	return datastore.createQuery(DTEncryptionMethod.class).filter("encryptClass =", classname ).get();
+    }
+    
+    @Override
+     public DTEncryptionMethod getEncryptMethodByClass(){
+	return  getEncryptMethodByClass(null);
+     }
+    
     @Override
     public DTClient createWorld(DTClient client) {
 
@@ -65,12 +85,12 @@ public class MongoAdapter extends AbstractAdapter {
 	DTEncryptionMethod enc = new DTEncryptionMethod();
 	enc = datastore.createQuery(DTEncryptionMethod.class).filter("encryptClass =", "it.marcoberri.dockitech.security.Base64Security").get();
 	
-	final DTSecurityGroup groupAdmin = new DTSecurityGroup();
+	final DTSecurityGroup groupAdmin = new DTSecurityGroup(enc);
 	groupAdmin.setEncryptClass(enc);
 	groupAdmin.setTitle("ADMIN");
 	datastore.save(groupAdmin);
 	
-	final DTSecurityUser userAdmin = new DTSecurityUser();
+	final DTSecurityUser userAdmin = new DTSecurityUser(enc);
 	userAdmin.setEncryptClass(enc);
 	userAdmin.setNickname("admin");
 	userAdmin.setPassword("admin123!");
@@ -109,10 +129,26 @@ public class MongoAdapter extends AbstractAdapter {
 	    initAdapter(null);
 	}
 	
+	if(doc.getByteFile() != null && doc.getFile() != null) {
+	    final GridFSInputFile gfsFile = gridFS.createFile(doc.getByteFile());
+	    gfsFile.setFilename(doc.getFileNameCrypt());
+	    gfsFile.setContentType(doc.getContentTypeCrypt());
+	    gfsFile.save();
+	    doc.setFileId(new ObjectId(gfsFile.getId().toString()));
+	}
+	
 	datastore.save(doc);
 	
 	return doc;
 	
+    }
+    
+    @Override
+    public DTSecurityUser getUserByNick(String nickname){
+	final DTSecurityUser user = new DTSecurityUser(getEncryptMethodByClass());
+	user.setEncryptClass(getEncryptMethodByClass());
+	user.setNickname(nickname);
+	return datastore.createQuery(DTSecurityUser.class).filter(FieldsName.SECURITYUSER_NICKNAME + " = ", user.getNicknameCrypt()).get();
     }
 
 }

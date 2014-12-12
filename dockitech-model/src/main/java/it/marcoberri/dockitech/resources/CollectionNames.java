@@ -4,6 +4,7 @@ public class CollectionNames {
     
     public static final String COLLECTION_DOCUMENT = "document";
     public static final String COLLECTION_TAG = "tag";
+    public static final String COLLECTION_FILES = "files";
     
     
     

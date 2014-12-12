@@ -8,6 +8,23 @@
 	<artifactId>dockitech-adapter</artifactId>
 
 
+
+	<build>
+
+
+
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</testResource>
+		</testResources>
+	</build>
+	
+	
 	<dependencies>
 
 

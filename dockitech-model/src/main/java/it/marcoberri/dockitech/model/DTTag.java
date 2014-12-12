@@ -2,6 +2,10 @@ package it.marcoberri.dockitech.model;
 
 public class DTTag extends DTBase {
 
+    public DTTag(DTEncryptionMethod encryptClass) {
+	super(encryptClass);
+    }
+
     private String value;
     private String norm;
     private Integer size;
