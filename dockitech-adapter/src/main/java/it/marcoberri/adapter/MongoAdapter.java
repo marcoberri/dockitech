@@ -34,7 +34,7 @@ public class MongoAdapter extends AbstractAdapter {
 	// TODO
 
 	try {
-	    MongoClient mongoClient = new MongoClient("192.168.1.89");
+	    MongoClient mongoClient = new MongoClient("localhost");
 	    final Morphia morphia = new Morphia();
 	    morphia.mapPackage("it.marcoberri.dockitech.model");
 	    datastore = morphia.createDatastore(mongoClient, "test");
@@ -51,7 +51,7 @@ public class MongoAdapter extends AbstractAdapter {
 	if(classname == null)
 	    classname = defaultEncrypt;
 	
-	final DTEncryptionMethod enc = new DTEncryptionMethod();
+	
 	return datastore.createQuery(DTEncryptionMethod.class).filter("encryptClass =", classname ).get();
     }
     
@@ -86,12 +86,10 @@ public class MongoAdapter extends AbstractAdapter {
 	enc = datastore.createQuery(DTEncryptionMethod.class).filter("encryptClass =", "it.marcoberri.dockitech.security.Base64Security").get();
 	
 	final DTSecurityGroup groupAdmin = new DTSecurityGroup(enc);
-	groupAdmin.setEncryptClass(enc);
 	groupAdmin.setTitle("ADMIN");
 	datastore.save(groupAdmin);
 	
 	final DTSecurityUser userAdmin = new DTSecurityUser(enc);
-	userAdmin.setEncryptClass(enc);
 	userAdmin.setNickname("admin");
 	userAdmin.setPassword("admin123!");
 	userAdmin.setName("Global Admin System");
@@ -99,6 +97,7 @@ public class MongoAdapter extends AbstractAdapter {
 	userAdmin.addSecurityGroup(groupAdmin);
 	datastore.save(userAdmin);
 
+	
 	client.addSecurityGroup(groupAdmin);
 	client.setEncryptClass(enc);
 	datastore.save(client);

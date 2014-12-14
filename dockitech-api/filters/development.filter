@@ -1,2 +1,4 @@
 log4j.priority.level=DEBUG
 log4j.file=/opt/logs/dockitech.log
+
+

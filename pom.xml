@@ -27,5 +27,6 @@
 		<retrofit.okclient.version>2.0.0</retrofit.okclient.version>	
 		<junit.version>4.12</junit.version>
 		<commons-codec.version>1.9</commons-codec.version>	
+		<log4j.version>2.1</log4j.version>
 	</properties>
 </project>

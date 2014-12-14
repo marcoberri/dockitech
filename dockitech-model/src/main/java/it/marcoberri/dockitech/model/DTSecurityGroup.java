@@ -10,17 +10,17 @@ import org.mongodb.morphia.annotations.Indexed;
 import org.mongodb.morphia.annotations.PrePersist;
 import org.mongodb.morphia.annotations.Property;
 import org.mongodb.morphia.annotations.Reference;
+import org.mongodb.morphia.annotations.Transient;
 import org.mongodb.morphia.utils.IndexDirection;
 
 @Entity(value=CollectionNames.SECURITY_GROUP,noClassnameStored = true)
 public class DTSecurityGroup extends DTBase {
 
-
-    public DTSecurityGroup(DTEncryptionMethod encryptClass) {
-	super(encryptClass);
-    }
-
-
+	
+  
+    @Transient
+    private DTEncryptionMethod encryptClass;
+    
     @Indexed(value=IndexDirection.ASC, unique=true, dropDups=true)
     private String title;
     
@@ -37,7 +37,17 @@ public class DTSecurityGroup extends DTBase {
      @Property(FieldsName.SECURITYGROUP_DELETE)
     private boolean delete = true;
     
-    
+  
+     
+     public DTSecurityGroup() {
+     	super();
+     }
+
+     public DTSecurityGroup(DTEncryptionMethod encryptClass) {
+     	this.encryptClass = encryptClass;
+     }
+
+     
     @PrePersist 
     void prePersist() {
 	lastsystemUpdate = new Date();

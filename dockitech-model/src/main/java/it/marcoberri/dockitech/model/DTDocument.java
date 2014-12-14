@@ -21,10 +21,25 @@ import org.mongodb.morphia.annotations.Version;
 @Entity(value = CollectionNames.COLLECTION_DOCUMENT, noClassnameStored = true)
 public class DTDocument extends DTBase {
 
-    public DTDocument(DTEncryptionMethod encryptClass) {
-	super(encryptClass);
+    public DTDocument() {
+		super();
+	}
+
+	public DTDocument(DTEncryptionMethod encryptClass) {
+	this.encryptClass = encryptClass;
     }
 
+    public DTEncryptionMethod getEncryptClass() {
+		return encryptClass;
+	}
+
+	public void setEncryptClass(DTEncryptionMethod encryptClass) {
+		this.encryptClass = encryptClass;
+	}
+
+	@Transient
+    private DTEncryptionMethod encryptClass;
+    
     @Property(FieldsName.DOC_TITLE)
     private String title;
 

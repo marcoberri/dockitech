@@ -1,38 +1,57 @@
 package it.marcoberri.dockitech.model;
 
+import org.mongodb.morphia.annotations.Property;
+import org.mongodb.morphia.annotations.Transient;
+
+import it.marcoberri.dockitech.resources.FieldsName;
+
+
 public class DTTag extends DTBase {
 
-    public DTTag(DTEncryptionMethod encryptClass) {
-	super(encryptClass);
-    }
+	public DTTag(DTEncryptionMethod encryptClass) {
+		this.encryptClass = encryptClass;
+	}
+	
+	public DTTag() {
+		super();
+	}
+	
 
-    private String value;
-    private String norm;
-    private Integer size;
+	@Transient
+	private DTEncryptionMethod encryptClass;
 
-    public String getValue() {
-        return value;
-    }
+	@Property(FieldsName.TAG_VALUE)
+	private String value;
 
-    public String getNorm() {
-        return norm;
-    }
+	@Property(FieldsName.TAG_NORM)
+	private String norm;
 
-    public void setNorm(String norm) {
-        this.norm = norm.toUpperCase();
-    }
+	@Property(FieldsName.TAG_SIZE)
+	private Integer size;
 
-    public void setValue(String value) {
-        this.value = value;
-        setNorm(value);
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public Integer getSize() {
-        return size;
-    }
+	public String getNorm() {
+		return norm;
+	}
 
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-    
+	public void setNorm(String norm) {
+		this.norm = norm.toUpperCase();
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+		setNorm(value);
+	}
+
+	public Integer getSize() {
+		return size;
+	}
+
+	public void setSize(Integer size) {
+		this.size = size;
+	}
+
 }

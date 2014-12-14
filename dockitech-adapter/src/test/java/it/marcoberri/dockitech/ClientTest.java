@@ -35,8 +35,7 @@ public class ClientTest {
 	final DTSecurityUser user = adapter.getUserByNick("admin");
 	Assert.assertNotNull(user);	
 	
-	DTDocument doc = new DTDocument();
-	doc.setEncryptClass(client.getEncryptClass());
+	DTDocument doc = new DTDocument(result.getEncryptClass());
 	
 	doc.addSecurityUser(user);
 	doc.setSecurityGroup(doc.getSecurityGroup());

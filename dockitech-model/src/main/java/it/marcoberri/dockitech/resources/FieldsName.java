@@ -37,6 +37,9 @@ public final class FieldsName {
     public static final String SECURITYUSER_LAST_SYSTEM_UPDATE = "LL";
     public static final String DOC_CONTENT_TYPE = "VV";
     public static final String DOC_FILE_NAME = "QQ";
+	public static final String TAG_VALUE = "TY";
+	public static final String TAG_NORM = "LO";
+	public static final String TAG_SIZE = "OO";
 
   
 }

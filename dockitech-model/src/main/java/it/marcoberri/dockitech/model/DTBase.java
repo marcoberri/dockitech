@@ -5,20 +5,14 @@ import java.lang.reflect.Method;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Id;
-import org.mongodb.morphia.annotations.Reference;
 
 public class DTBase {
 
-   public DTBase(DTEncryptionMethod encryptClass) {
-	super();
-	this.encryptClass = encryptClass;
-    }
+
 
     @Id
     private ObjectId id;
 
-    @Reference
-    private DTEncryptionMethod encryptClass;
 
     
     public byte[] encrypt(byte[] plain, String criptClass) {
@@ -162,12 +156,6 @@ public class DTBase {
 	this.id = id;
     }
 
-    public DTEncryptionMethod getEncryptClass() {
-	return encryptClass;
-    }
-
-    public void setEncryptClass(DTEncryptionMethod encryptClass) {
-	this.encryptClass = encryptClass;
-    }
+ 
 
 }
