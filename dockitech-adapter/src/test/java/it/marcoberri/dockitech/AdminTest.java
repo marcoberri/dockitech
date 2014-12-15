@@ -13,7 +13,7 @@ public class AdminTest {
 	MongoAdapter adapter = new MongoAdapter();
 	final DTClient client = new DTClient();
 	client.setTitle("WORLD");
-	DTClient result = adapter.createWorld(client);
+	final DTClient result = adapter.createWorld(client);
 	Assert.assertNotNull(result);
 	adapter.dropWorld();
 	

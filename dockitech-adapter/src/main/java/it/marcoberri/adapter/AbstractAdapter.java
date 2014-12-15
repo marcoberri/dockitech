@@ -14,9 +14,6 @@ public abstract class AbstractAdapter {
     
     public abstract  void dropWorld();
     
-    public abstract DTEncryptionMethod getEncryptMethodByClass();
     
-    public abstract DTEncryptionMethod getEncryptMethodByClass(String classname);
-    
-    public abstract DTSecurityUser getUserByNick(String nickname);
+    public abstract DTSecurityUser getUserByNick(DTClient client, String nickname);
 }

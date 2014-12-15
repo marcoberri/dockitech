@@ -33,10 +33,5 @@ public class DTEncryptionMethod {
     public void setEncryptClass(String encryptClass) {
         this.encryptClass = encryptClass;
     }
-
-    
-    
-
-   
     
 }

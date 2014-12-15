@@ -1,7 +1,5 @@
 package it.marcoberri.dockitech.resources;
 
-import java.util.Properties;
-
 public final class FieldsName {
 
     public static final String CLIENT_TITLE = "4E";
@@ -28,6 +26,7 @@ public final class FieldsName {
     public static final String SECURITYGROUP_WRITE = "UW";
     public static final String SECURITYGROUP_DELETE = "PO";
     public static final String SECURITYUSER_NICKNAME = "NN";
+    public static final String SECURITYGROUP_CLIENT = "UU";
     public static final String SECURITYUSER_NAME = "EE";
     public static final String SECURITYUSER_USERNAME = "E2";
     public static final String SECURITYUSER_PASSWORD = "X3";
@@ -37,9 +36,9 @@ public final class FieldsName {
     public static final String SECURITYUSER_LAST_SYSTEM_UPDATE = "LL";
     public static final String DOC_CONTENT_TYPE = "VV";
     public static final String DOC_FILE_NAME = "QQ";
-	public static final String TAG_VALUE = "TY";
-	public static final String TAG_NORM = "LO";
-	public static final String TAG_SIZE = "OO";
+    public static final String TAG_VALUE = "TY";
+    public static final String TAG_NORM = "LO";
+    public static final String TAG_SIZE = "OO";
+    public static final String DOC_DESCRIPTION = "X22";
 
-  
 }

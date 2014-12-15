@@ -23,9 +23,9 @@ import com.mongodb.gridfs.GridFSInputFile;
 public class MongoAdapter extends AbstractAdapter {
 
     private Datastore datastore;
-    
+
     private String defaultEncrypt = "it.marcoberri.dockitech.security.Base64Security";
-    
+
     private GridFS gridFS;
 
     @Override
@@ -34,62 +34,56 @@ public class MongoAdapter extends AbstractAdapter {
 	// TODO
 
 	try {
-	    MongoClient mongoClient = new MongoClient("localhost");
+	    //MongoClient mongoClient = new MongoClient("localhost");
+	    MongoClient mongoClient = new MongoClient("192.168.1.89");
 	    final Morphia morphia = new Morphia();
 	    morphia.mapPackage("it.marcoberri.dockitech.model");
 	    datastore = morphia.createDatastore(mongoClient, "test");
-	    
+
 	    this.gridFS = new GridFS(datastore.getDB(), CollectionNames.COLLECTION_FILES);
-	    
+
 	} catch (final UnknownHostException e) {
 	    e.printStackTrace();
 	}
     }
 
-    @Override
-    public DTEncryptionMethod getEncryptMethodByClass(String classname){
-	if(classname == null)
-	    classname = defaultEncrypt;
-	
-	
-	return datastore.createQuery(DTEncryptionMethod.class).filter("encryptClass =", classname ).get();
-    }
-    
-    @Override
-     public DTEncryptionMethod getEncryptMethodByClass(){
-	return  getEncryptMethodByClass(null);
-     }
-    
+
+
     @Override
     public DTClient createWorld(DTClient client) {
 
 	if (datastore == null) {
 	    initAdapter(null);
 	}
-	
 
-	//setting enc Method
-	final ArrayList<String> encMethod =  new ArrayList<String>() {{
-	    add("it.marcoberri.dockitech.security.NullSecurity");
-	    add("it.marcoberri.dockitech.security.Base64Security");
-	}};
-	
-	for(String s : encMethod){
+	// setting enc Method
+	final ArrayList<String> encMethod = new ArrayList<String>() {
+	    {
+		add("it.marcoberri.dockitech.security.NullSecurity");
+		add("it.marcoberri.dockitech.security.Base64Security");
+		add("it.marcoberri.dockitech.security.CipherSecurity");
+	    }
+	};
+
+	for (String s : encMethod) {
 	    final DTEncryptionMethod enc = new DTEncryptionMethod();
 	    enc.setEncryptClass(s);
 	    datastore.save(enc);
 	}
-	
-	
-	//load encrypt method default
+
+	// load encrypt method default
 	DTEncryptionMethod enc = new DTEncryptionMethod();
 	enc = datastore.createQuery(DTEncryptionMethod.class).filter("encryptClass =", "it.marcoberri.dockitech.security.Base64Security").get();
+	client.setEncryptClass(enc);
+	client.setEncryptKey("secrekeysecrekey1234567890!!");
+	datastore.save(client);
 	
-	final DTSecurityGroup groupAdmin = new DTSecurityGroup(enc);
+	
+	final DTSecurityGroup groupAdmin = new DTSecurityGroup(client);
 	groupAdmin.setTitle("ADMIN");
 	datastore.save(groupAdmin);
-	
-	final DTSecurityUser userAdmin = new DTSecurityUser(enc);
+
+	final DTSecurityUser userAdmin = new DTSecurityUser(client);
 	userAdmin.setNickname("admin");
 	userAdmin.setPassword("admin123!");
 	userAdmin.setName("Global Admin System");
@@ -97,57 +91,72 @@ public class MongoAdapter extends AbstractAdapter {
 	userAdmin.addSecurityGroup(groupAdmin);
 	datastore.save(userAdmin);
 
-	
 	client.addSecurityGroup(groupAdmin);
-	client.setEncryptClass(enc);
+	
 	datastore.save(client);
 
-	
-	
-	
 	return client;
     }
 
     @Override
     public void dropWorld() {
 
-	//TODO
+	// TODO
 	if (datastore == null) {
 	    initAdapter(null);
 	}
-	
+
 	datastore.getMongo().dropDatabase("test");
-	
-	
-	
+
     }
-    
-    public DTDocument addDocument(DTDocument doc){
+
+    public DTDocument addDocument(DTDocument doc) {
 
 	if (datastore == null) {
 	    initAdapter(null);
 	}
 	
-	if(doc.getByteFile() != null && doc.getFile() != null) {
+
+	if (doc.getByteFile() != null && doc.getFile() != null) {
 	    final GridFSInputFile gfsFile = gridFS.createFile(doc.getByteFile());
 	    gfsFile.setFilename(doc.getFileNameCrypt());
 	    gfsFile.setContentType(doc.getContentTypeCrypt());
 	    gfsFile.save();
 	    doc.setFileId(new ObjectId(gfsFile.getId().toString()));
 	}
-	
+
 	datastore.save(doc);
-	
+
 	return doc;
+
+    }
+
+    
+    public DTDocument getDocumentByTitle(DTClient client,DTDocument doc) {
+
+	if (datastore == null) {
+	    initAdapter(null);
+	}
 	
+	if(doc.getTitle() == null){
+	    return null;
+	    //TODO exception
+	}
+	
+	if(doc.getClient() == null){
+	    doc.setClient(client);
+	}
+
+	
+	return datastore.createQuery(DTDocument.class).filter(FieldsName.DOC_TITLE + " = ", doc.getTitleCrypt()).filter(FieldsName.DOC_CLIENT + " = ", client).get();
+
     }
     
     @Override
-    public DTSecurityUser getUserByNick(String nickname){
-	final DTSecurityUser user = new DTSecurityUser(getEncryptMethodByClass());
-	user.setEncryptClass(getEncryptMethodByClass());
+    public DTSecurityUser getUserByNick(DTClient client, String nickname) {
+	final DTSecurityUser user = new DTSecurityUser(client);
 	user.setNickname(nickname);
-	return datastore.createQuery(DTSecurityUser.class).filter(FieldsName.SECURITYUSER_NICKNAME + " = ", user.getNicknameCrypt()).get();
+	return datastore.createQuery(DTSecurityUser.class).filter(FieldsName.SECURITYUSER_NICKNAME + " = ", user.getNicknameCrypt()).filter(FieldsName.SECURITYUSER_CLIENT + " = ", client).get();
     }
 
 }

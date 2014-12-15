@@ -23,8 +23,8 @@
 			</testResource>
 		</testResources>
 	</build>
-	
-	
+
+
 	<dependencies>
 
 
@@ -48,13 +48,13 @@
 			<version>${morphia.version}</version>
 		</dependency>
 
-<dependency>
-	<groupId>org.apache.logging.log4j</groupId>
-	<artifactId>log4j-core</artifactId>
-	<version>${log4j.version}</version>
-</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
 
-
+	<!--  test\ -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

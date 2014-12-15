@@ -20,28 +20,27 @@ public class ClientTest {
     @Test
     public void addDocument() throws IOException{
 	
-	
-
-	
-	
 	final MongoAdapter adapter = new MongoAdapter();
 	adapter.dropWorld();
 	
-	final DTClient client = new DTClient();
-	client.setTitle("WORLD");
-	DTClient result = adapter.createWorld(client);
-	Assert.assertNotNull(result);	
+	final String title = "first document title test";
+	final String description = "first document title test";
 	
-	final DTSecurityUser user = adapter.getUserByNick("admin");
+	DTClient client = new DTClient();
+	client.setTitle("WORLD");
+	client = adapter.createWorld(client);
+	Assert.assertNotNull(client);	
+	
+	final DTSecurityUser user = adapter.getUserByNick(client,"admin");
 	Assert.assertNotNull(user);	
 	
-	DTDocument doc = new DTDocument(result.getEncryptClass());
-	
+	DTDocument doc = new DTDocument(client);
+	doc.setClient(client);
 	doc.addSecurityUser(user);
 	doc.setSecurityGroup(doc.getSecurityGroup());
+	doc.setTitle(title);
+	doc.setDescription(description);
 
-	
-	doc.setTitle("first Document data");
 	File file = new File(this.getClass().getResource("/sunrise.jpeg").getPath());
 	doc.setFile(file);
 	
@@ -49,11 +48,18 @@ public class ClientTest {
 	byte[] data = Files.readAllBytes(path);
 	
 	doc.setByteFile(data);
+	
 	doc = adapter.addDocument(doc);	
+	Assert.assertNotNull("doc is null",doc);
+	
+	DTDocument findDoc = new DTDocument();
+	findDoc.setTitle(title);
+	DTDocument resultFindDoc = adapter.getDocumentByTitle(client, findDoc);
+	
+	Assert.assertTrue("title not match",findDoc.getTitle().endsWith(resultFindDoc.getTitle()));
 	
 	
 	
-	Assert.assertNotNull(doc);
 	
 	//adapter.dropWorld();
     }

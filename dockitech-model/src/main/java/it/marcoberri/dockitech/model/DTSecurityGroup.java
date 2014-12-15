@@ -13,95 +13,78 @@ import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.annotations.Transient;
 import org.mongodb.morphia.utils.IndexDirection;
 
-@Entity(value=CollectionNames.SECURITY_GROUP,noClassnameStored = true)
+@Entity(value = CollectionNames.SECURITY_GROUP, noClassnameStored = true)
 public class DTSecurityGroup extends DTBase {
 
-	
-  
-    @Transient
-    private DTEncryptionMethod encryptClass;
-    
-    @Indexed(value=IndexDirection.ASC, unique=true, dropDups=true)
+    @Indexed(value = IndexDirection.ASC, unique = true, dropDups = true)
     private String title;
-    
-     @Property(FieldsName.SECURITYGROUP_LAST_SYSTEM_UPDATE)
+
+    @Property(FieldsName.SECURITYGROUP_LAST_SYSTEM_UPDATE)
     private Date lastsystemUpdate = new Date();
-    
-    
-     @Property(FieldsName.SECURITYGROUP_READ)
+
+    @Reference(FieldsName.SECURITYGROUP_CLIENT)
+    private DTClient client;
+
+    @Property(FieldsName.SECURITYGROUP_READ)
     private boolean read = true;
-    
-     @Property(FieldsName.SECURITYGROUP_WRITE)
+
+    @Property(FieldsName.SECURITYGROUP_WRITE)
     private boolean write = true;
-    
-     @Property(FieldsName.SECURITYGROUP_DELETE)
+
+    @Property(FieldsName.SECURITYGROUP_DELETE)
     private boolean delete = true;
-    
-  
-     
-     public DTSecurityGroup() {
-     	super();
-     }
 
-     public DTSecurityGroup(DTEncryptionMethod encryptClass) {
-     	this.encryptClass = encryptClass;
-     }
+    public DTSecurityGroup() {
+	super();
+    }
 
-     
-    @PrePersist 
+    public DTSecurityGroup(DTClient client) {
+	this.client = client;
+    }
+
+    @PrePersist
     void prePersist() {
 	lastsystemUpdate = new Date();
     }
 
-
     public String getTitle() {
-        return title;
+	return decrypt(title, this.client);
     }
-
 
     public void setTitle(String title) {
-        this.title = title;
+	this.title = encrypt(title, client);
     }
-
 
     public Date getLastsystemUpdate() {
-        return lastsystemUpdate;
+	return lastsystemUpdate;
     }
-
 
     public void setLastsystemUpdate(Date lastsystemUpdate) {
-        this.lastsystemUpdate = lastsystemUpdate;
+	this.lastsystemUpdate = lastsystemUpdate;
     }
-
 
     public boolean isRead() {
-        return read;
+	return read;
     }
-
 
     public void setRead(boolean read) {
-        this.read = read;
+	this.read = read;
     }
-
 
     public boolean isWrite() {
-        return write;
+	return write;
     }
-
 
     public void setWrite(boolean write) {
-        this.write = write;
+	this.write = write;
     }
-
 
     public boolean isDelete() {
-        return delete;
+	return delete;
     }
-
 
     public void setDelete(boolean delete) {
-        this.delete = delete;
+	this.delete = delete;
     }
-    
-    
+
 }

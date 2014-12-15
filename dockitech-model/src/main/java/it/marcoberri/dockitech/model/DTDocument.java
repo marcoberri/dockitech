@@ -22,27 +22,20 @@ import org.mongodb.morphia.annotations.Version;
 public class DTDocument extends DTBase {
 
     public DTDocument() {
-		super();
-	}
-
-	public DTDocument(DTEncryptionMethod encryptClass) {
-	this.encryptClass = encryptClass;
+	super();
     }
 
-    public DTEncryptionMethod getEncryptClass() {
-		return encryptClass;
-	}
+    public DTDocument(DTClient client) {
+	this.client = client;
+    }
 
-	public void setEncryptClass(DTEncryptionMethod encryptClass) {
-		this.encryptClass = encryptClass;
-	}
-
-	@Transient
-    private DTEncryptionMethod encryptClass;
-    
     @Property(FieldsName.DOC_TITLE)
     private String title;
 
+    
+    @Property(FieldsName.DOC_DESCRIPTION)
+    private String description;
+    
     @Property(FieldsName.DOC_TAGS)
     private List<DTTag> tags;
 
@@ -72,14 +65,12 @@ public class DTDocument extends DTBase {
 
     @Property(FieldsName.DOC_PUBLISH)
     private boolean publish = false;
-    
 
     @Reference(FieldsName.DOC_PUBLISHER)
     private DTSecurityUser publisher;
 
     @Property(FieldsName.DOC_PUBLISHER_DATE)
     private Date publisherDate = new Date();
-
 
     @Property(FieldsName.DOC_CONTENT_TYPE)
     private String contentType;
@@ -95,7 +86,7 @@ public class DTDocument extends DTBase {
 
     @Transient
     private byte[] byteFile;
-    
+
     @Version(FieldsName.DOC_VERSION)
     private Long version;
 
@@ -103,15 +94,15 @@ public class DTDocument extends DTBase {
     private List<DTHistory> history;
 
     public String getFileName() {
-        return decrypt(fileName,this.getEncryptClass().getEncryptClass());
+	return decrypt(fileName, this.client);
     }
 
     public String getFileNameCrypt() {
-        return fileName;
+	return fileName;
     }
 
     public void setFileName(String fileName) {
-	this.fileName = encrypt(fileName,this.getEncryptClass().getEncryptClass());
+	this.fileName = encrypt(fileName, this.client);
     }
 
     public void addSecurityGroup(DTSecurityGroup group) {
@@ -120,21 +111,28 @@ public class DTDocument extends DTBase {
 	securityGroup.add(group);
     }
 
+    public String getDescription() {
+	return decrypt(this.description, this.client);
+    }
+
+    public void setDescription(String description) {
+	this.description = encrypt(description, this.client);
+    }
+
     public List<DTSecurityGroup> getSecurityGroup() {
 	return securityGroup;
     }
 
-
     public String getContentType() {
-        return decrypt(this.contentType,this.getEncryptClass().getEncryptClass());
+	return decrypt(this.contentType, this.client);
     }
 
     public String getContentTypeCrypt() {
-        return this.contentType;
+	return this.contentType;
     }
 
     public void setContentType(String contentType) {
-	this.contentType = encrypt(contentType,this.getEncryptClass().getEncryptClass());
+	this.contentType = encrypt(contentType, this.client);
     }
 
     public void setSecurityGroup(List<DTSecurityGroup> securityGroup) {
@@ -156,11 +154,11 @@ public class DTDocument extends DTBase {
     }
 
     public byte[] getByteFile() {
-	return decrypt(byteFile,this.getEncryptClass().getEncryptClass());
+	return decrypt(byteFile, this.client);
     }
 
     public void setByteFile(byte[] byteFile) {
-	this.byteFile = encrypt(byteFile,this.getEncryptClass().getEncryptClass());
+	this.byteFile = encrypt(byteFile, this.client);
     }
 
     public File getFile() {
@@ -173,7 +171,7 @@ public class DTDocument extends DTBase {
 	try {
 	    setContentType(Files.probeContentType(file.toPath()));
 	} catch (final IOException e) {
-	    //TODO Log
+	    // TODO Log
 	}
     }
 
@@ -226,7 +224,7 @@ public class DTDocument extends DTBase {
 	if (this.fileId != null) {
 	    addHistory(this.fileId, this.version);
 	}
-	//this.version += 1;
+	// this.version += 1;
 	this.fileId = fileId;
     }
 
@@ -292,11 +290,11 @@ public class DTDocument extends DTBase {
     }
 
     public String getTitle() {
-	return decrypt(title,this.getEncryptClass().getEncryptClass());
+	return decrypt(title, this.client);
     }
 
     public void setTitle(String title) {
-	this.title = encrypt(title,this.getEncryptClass().getEncryptClass());
+	this.title = encrypt(title, this.client);
     }
 
     public List<DTTag> getTags() {
@@ -313,12 +311,16 @@ public class DTDocument extends DTBase {
 
     public void addTag(String value, Integer size) {
 
-	final DTTag t = new DTTag(this.getEncryptClass());
+	final DTTag t = new DTTag(client);
 	t.setValue(value);
 	t.setSize(size);
 	if (this.tags == null)
 	    this.tags = new ArrayList<DTTag>();
 	this.tags.add(t);
+    }
+
+    public String getTitleCrypt() {
+	return this.getTitle();
     }
 
 }

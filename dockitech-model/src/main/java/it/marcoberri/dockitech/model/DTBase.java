@@ -2,6 +2,7 @@ package it.marcoberri.dockitech.model;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Id;
@@ -15,12 +16,15 @@ public class DTBase {
 
 
     
-    public byte[] encrypt(byte[] plain, String criptClass) {
+    public byte[] encrypt(byte[] plain, DTClient client) {
+	
+	final String criptClass = client.getEncryptClass().getEncryptClass();
+	final String key = client.getEncryptKey();
 	
 	try {
 	    final Class<?> clazz = Class.forName(criptClass);
-	    final Method method = clazz.newInstance().getClass().getMethod("encrypt", byte[].class);
-	    plain = (byte[]) method.invoke(clazz.newInstance(), plain);
+	    final Method method = clazz.newInstance().getClass().getMethod("encrypt", byte[].class, String.class);
+	    plain = (byte[]) method.invoke(clazz.newInstance(), plain, (String)key);
 	} catch (final ClassNotFoundException e) {
 	    e.printStackTrace();
 
@@ -47,12 +51,17 @@ public class DTBase {
 	return plain;
     }
     
-    public String encrypt(String plain, String criptClass) {
+    public String encrypt(String plain, DTClient client) {
+	
+	final String criptClass = client.getEncryptClass().getEncryptClass();
+	final String key = client.getEncryptKey();
 
 	try {
 	    final Class<?> clazz = Class.forName(criptClass);
-	    final Method method = clazz.newInstance().getClass().getMethod("encrypt", String.class);
-	    plain = (String) method.invoke(clazz.newInstance(), plain);
+	    final Method method = clazz.newInstance().getClass().getMethod("encrypt", String.class, String.class);
+	    System.out.println(method.getName());
+	    System.out.println(Arrays.asList(method.getParameterTypes()));
+	    plain = (String) method.invoke(clazz.newInstance(), plain,(String)key);
 	} catch (final ClassNotFoundException e) {
 	    e.printStackTrace();
 
@@ -81,12 +90,18 @@ public class DTBase {
     }
 
     
-    public byte[] decrypt(byte[] cript, String criptClass) {
+    public byte[] decrypt(byte[] cript, DTClient client) {
+	
+	final String criptClass = client.getEncryptClass().getEncryptClass();
+	final String key = client.getEncryptKey();
 
 	try {
 	    final Class<?> clazz = Class.forName(criptClass);
-	    final Method method = clazz.newInstance().getClass().getMethod("decrypt", String.class);
-	    cript = (byte[]) method.invoke(clazz.newInstance(), cript);
+	    final Method method = clazz.newInstance().getClass().getMethod("decrypt", byte[].class, String.class);
+	    System.out.println("classname: " + criptClass);
+	    System.out.println(method.getName());
+	    System.out.println(Arrays.asList(method.getParameterTypes()));
+	    cript = (byte[]) method.invoke(clazz.newInstance(), cript, (String)key);
 	} catch (final ClassNotFoundException e) {
 	    e.printStackTrace();
 
@@ -115,12 +130,15 @@ public class DTBase {
     }
 
     
-    public String decrypt(String cript, String criptClass) {
+    public String decrypt(String cript, DTClient client) {
+
+	final String criptClass = client.getEncryptClass().getEncryptClass();
+	final String key = client.getEncryptKey();
 
 	try {
 	    final Class<?> clazz = Class.forName(criptClass);
-	    final Method method = clazz.newInstance().getClass().getMethod("decrypt", String.class);
-	    cript = (String) method.invoke(clazz.newInstance(), cript);
+	    final Method method = clazz.newInstance().getClass().getMethod("decrypt", String.class, String.class);
+	    cript = (String) method.invoke(clazz.newInstance(), cript, (String)key);
 	} catch (final ClassNotFoundException e) {
 	    e.printStackTrace();
 

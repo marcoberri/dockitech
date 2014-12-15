@@ -46,12 +46,13 @@ public class DTSecurityUser extends DTBase {
 	@Property(FieldsName.SECURITYUSER_LAST_SYSTEM_UPDATE)
 	private Date lastsystemUpdate = new Date();
 
+	    
 	public DTSecurityUser() {
 		super();
 	}
 
-	public DTSecurityUser(DTEncryptionMethod encryptClass) {
-		this.encryptClass = encryptClass;
+	public DTSecurityUser(DTClient client) {
+		this.client = client;
 	}
 
 	public void addSecurityGroup(DTSecurityGroup group) {
@@ -62,8 +63,7 @@ public class DTSecurityUser extends DTBase {
 	}
 
 	public void setPassword(String password) {
-		this.password = encrypt(password, this.getEncryptClass()
-				.getEncryptClass());
+		this.password = encrypt(password, client);
 	}
 
 	@PrePersist
@@ -92,7 +92,7 @@ public class DTSecurityUser extends DTBase {
 	}
 
 	public String getNickname() {
-		return decrypt(nickname, this.getEncryptClass().getEncryptClass());
+		return decrypt(nickname, this.client);
 	}
 
 	public String getNicknameCrypt() {
@@ -100,25 +100,23 @@ public class DTSecurityUser extends DTBase {
 	}
 
 	public void setNickname(String nickname) {
-		this.nickname = encrypt(nickname, this.getEncryptClass()
-				.getEncryptClass());
+		this.nickname = encrypt(nickname, client);
 	}
 
 	public String getName() {
-		return decrypt(name, this.getEncryptClass().getEncryptClass());
+		return decrypt(name, client);
 	}
 
 	public void setName(String name) {
-		this.name = encrypt(name, this.getEncryptClass().getEncryptClass());
+		this.name = encrypt(name, client);
 	}
 
 	public String getSurname() {
-		return decrypt(surname, this.getEncryptClass().getEncryptClass());
+		return decrypt(surname, client);
 	}
 
 	public void setSurname(String surname) {
-		this.surname = encrypt(surname, this.getEncryptClass()
-				.getEncryptClass());
+		this.surname = encrypt(surname,client);
 	}
 
 	public DTClient getClient() {
