@@ -40,5 +40,7 @@ public final class FieldsName {
     public static final String TAG_NORM = "LO";
     public static final String TAG_SIZE = "OO";
     public static final String DOC_DESCRIPTION = "X22";
+    public static final String SECURITYUSER_TOKEN_TYPE_USER = "XVR";
+    public static final String SECURITYUSER_TOKEN_TYPE_APP = "RRZ";
 
 }

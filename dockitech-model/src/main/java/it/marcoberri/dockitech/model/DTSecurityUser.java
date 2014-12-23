@@ -46,10 +46,40 @@ public class DTSecurityUser extends DTBase {
 	@Property(FieldsName.SECURITYUSER_LAST_SYSTEM_UPDATE)
 	private Date lastsystemUpdate = new Date();
 
+	@Property(FieldsName.SECURITYUSER_TOKEN_TYPE_USER)
+	private boolean tokenTypeUser = true;
+	
+	@Property(FieldsName.SECURITYUSER_TOKEN_TYPE_APP)
+	private boolean tokenTypeApp = !tokenTypeUser;
+	
 	    
 	public DTSecurityUser() {
 		super();
 	}
+
+	
+	public boolean isTokenTypeUser() {
+	    return tokenTypeUser;
+	}
+
+
+	public void setTokenTypeUser(boolean tokenTypeUser) {
+	    this.tokenTypeUser = tokenTypeUser;
+	    this.tokenTypeApp = !tokenTypeUser;
+	    
+	}
+
+
+	public boolean isTokenTypeApp() {
+	    return tokenTypeApp;
+	}
+
+
+	public void setTokenTypeApp(boolean tokenTypeApp) {
+	    this.tokenTypeApp = tokenTypeApp;
+	    this.tokenTypeUser = !tokenTypeApp;
+	}
+
 
 	public DTSecurityUser(DTClient client) {
 		this.client = client;

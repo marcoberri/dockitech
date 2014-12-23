@@ -52,8 +52,9 @@ public class ClientTest {
 	doc = adapter.addDocument(doc);	
 	Assert.assertNotNull("doc is null",doc);
 	
-	DTDocument findDoc = new DTDocument();
+	final DTDocument findDoc = new DTDocument();
 	findDoc.setTitle(title);
+	findDoc.setClient(client);
 	DTDocument resultFindDoc = adapter.getDocumentByTitle(client, findDoc);
 	
 	Assert.assertTrue("title not match",findDoc.getTitle().endsWith(resultFindDoc.getTitle()));

@@ -54,7 +54,7 @@
 			<version>${log4j.version}</version>
 		</dependency>
 
-	<!--  test\ -->
+		<!-- test\ -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

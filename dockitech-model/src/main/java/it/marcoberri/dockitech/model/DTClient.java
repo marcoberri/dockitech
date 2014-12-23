@@ -33,6 +33,10 @@ public class DTClient extends DTBase {
     @Reference
     private DTEncryptionMethod encryptClass;
     
+    private Integer tokenUserSeconds = 120;
+    
+    private Integer tokenAppSeconds = 120;
+    
     
     private String encryptKey;
 
@@ -41,6 +45,22 @@ public class DTClient extends DTBase {
 
     public List<DTSecurityGroup> getSecurityGroup() {
 	return securityGroup;
+    }
+
+    public Integer getTokenUserSeconds() {
+        return tokenUserSeconds;
+    }
+
+    public void setTokenUserSeconds(Integer tokenUserSeconds) {
+        this.tokenUserSeconds = tokenUserSeconds;
+    }
+
+    public Integer getTokenAppSeconds() {
+        return tokenAppSeconds;
+    }
+
+    public void setTokenAppSeconds(Integer tokenAppSeconds) {
+        this.tokenAppSeconds = tokenAppSeconds;
     }
 
     public String getEncryptKey() {
