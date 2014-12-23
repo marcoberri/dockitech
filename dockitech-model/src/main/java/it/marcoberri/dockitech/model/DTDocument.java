@@ -290,11 +290,12 @@ public class DTDocument extends DTBase {
     }
 
     public String getTitle() {
-	return decrypt(title, this.client);
+	return decrypt(this.title, this.client);
     }
 
     public void setTitle(String title) {
 	this.title = encrypt(title, this.client);
+	
     }
 
     public List<DTTag> getTags() {
@@ -320,7 +321,7 @@ public class DTDocument extends DTBase {
     }
 
     public String getTitleCrypt() {
-	return this.getTitle();
+	return this.title;
     }
 
 }

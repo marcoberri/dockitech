@@ -3,7 +3,6 @@ package it.marcoberri.dockitech.model;
 import java.util.Date;
 
 import org.bson.types.ObjectId;
-import org.mongodb.morphia.annotations.Property;
 
 public class DTHistory {
     

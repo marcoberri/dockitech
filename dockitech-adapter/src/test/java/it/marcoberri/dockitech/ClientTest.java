@@ -35,7 +35,6 @@ public class ClientTest {
 	Assert.assertNotNull(user);	
 	
 	DTDocument doc = new DTDocument(client);
-	doc.setClient(client);
 	doc.addSecurityUser(user);
 	doc.setSecurityGroup(doc.getSecurityGroup());
 	doc.setTitle(title);
@@ -52,12 +51,10 @@ public class ClientTest {
 	doc = adapter.addDocument(doc);	
 	Assert.assertNotNull("doc is null",doc);
 	
-	final DTDocument findDoc = new DTDocument();
-	findDoc.setTitle(title);
-	findDoc.setClient(client);
-	DTDocument resultFindDoc = adapter.getDocumentByTitle(client, findDoc);
+	final DTDocument resultFindDoc = adapter.getDocumentByTitle(client, title);
+	Assert.assertNotNull("doc retirved is null",resultFindDoc);
 	
-	Assert.assertTrue("title not match",findDoc.getTitle().endsWith(resultFindDoc.getTitle()));
+	Assert.assertTrue("title not match",title.equals(resultFindDoc.getTitle()));
 	
 	
 	

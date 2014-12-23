@@ -42,5 +42,10 @@ public final class FieldsName {
     public static final String DOC_DESCRIPTION = "X22";
     public static final String SECURITYUSER_TOKEN_TYPE_USER = "XVR";
     public static final String SECURITYUSER_TOKEN_TYPE_APP = "RRZ";
+    public static final String SYSTEM_TOKEN_USER = "URX";
+    public static final String SYSTEM_TOKEN_CLIENT = "XXC";
+    public static final String SYSTEM_TOKEN_TOKEN = "XUP";
+    public static final String SYSTEM_TOKEN_CREATED = "PWQ";
+    public static final String SYSTEM_TOKEN_VALID = "RAT";
 
 }

@@ -9,19 +9,31 @@
 
 	<dependencies>
 
-  <dependency>
-	<groupId>org.mongodb.morphia</groupId>
-	<artifactId>morphia</artifactId>
-	<version>${morphia.version}</version>
+		<dependency>
+			<groupId>org.mongodb.morphia</groupId>
+			<artifactId>morphia</artifactId>
+			<version>${morphia.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
+<dependency>
+	<groupId>commons-io</groupId>
+	<artifactId>commons-io</artifactId>
+	<version>${commons-io.version}</version>
 </dependency>
 
 
-
-  <dependency>
-	<groupId>it.marcoberri</groupId>
-	<artifactId>dockitech-security</artifactId>
-	<version>${project.version}</version>
-</dependency>
+		<dependency>
+			<groupId>it.marcoberri</groupId>
+			<artifactId>dockitech-security</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 
 	</dependencies>
