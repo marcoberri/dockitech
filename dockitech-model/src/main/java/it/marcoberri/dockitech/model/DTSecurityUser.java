@@ -125,7 +125,7 @@ public class DTSecurityUser extends DTBase {
 		return decrypt(nickname, this.client);
 	}
 
-	public String getNicknameCrypt() {
+	public String getNicknameEncrypt() {
 		return nickname;
 	}
 

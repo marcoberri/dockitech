@@ -18,4 +18,7 @@ public abstract class AbstractAdapter {
     public abstract DTSecurityUser getUserByNick(DTClient client, String nickname);
     
     public abstract DTDocument getDocumentByTitle(DTClient client, String titlePlain);
+    
+    public abstract DTDocument getDocumentByTitle(DTClient client, String titlePlain,boolean withFile);
+    
 }

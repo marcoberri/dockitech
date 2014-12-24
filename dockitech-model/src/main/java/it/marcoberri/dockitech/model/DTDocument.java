@@ -94,15 +94,19 @@ public class DTDocument extends DTBase {
     private List<DTHistory> history;
 
     public String getFileName() {
-	return decrypt(fileName, this.client);
+    	return decrypt(fileName, this.client);
     }
 
-    public String getFileNameCrypt() {
+    public String getFileNameEncrypt() {
 	return fileName;
     }
 
     public void setFileName(String fileName) {
-	this.fileName = encrypt(fileName, this.client);
+    	this.fileName = encrypt(fileName, this.client);
+    }
+
+    public void setFileNameEnrypt(String fileName) {
+    	this.fileName = fileName;
     }
 
     public void addSecurityGroup(DTSecurityGroup group) {
@@ -127,7 +131,7 @@ public class DTDocument extends DTBase {
 	return decrypt(this.contentType, this.client);
     }
 
-    public String getContentTypeCrypt() {
+    public String getContentTypeEncrypt() {
 	return this.contentType;
     }
 
@@ -320,7 +324,7 @@ public class DTDocument extends DTBase {
 	this.tags.add(t);
     }
 
-    public String getTitleCrypt() {
+    public String getTitleEncrypt() {
 	return this.title;
     }
 
