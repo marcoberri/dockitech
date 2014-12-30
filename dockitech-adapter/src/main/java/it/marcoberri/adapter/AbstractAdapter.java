@@ -2,23 +2,42 @@ package it.marcoberri.adapter;
 
 import it.marcoberri.dockitech.model.DTClient;
 import it.marcoberri.dockitech.model.DTDocument;
-import it.marcoberri.dockitech.model.DTEncryptionMethod;
 import it.marcoberri.dockitech.model.DTSecurityUser;
+import it.marcoberri.dockitech.model.DTText;
 
 import java.util.Properties;
 
+import javax.swing.text.DefaultTextUI;
+
 public abstract class AbstractAdapter {
 
-    public abstract void initAdapter(Properties p);
+	public abstract DTClient createWorld(DTClient client);
 
-    public abstract DTClient createWorld(DTClient client);
+	public abstract void dropWorld();
 
-    public abstract void dropWorld();
+	public abstract DTDocument getDocumentByTitle(DTClient client,
+			String titlePlain);
 
-    public abstract DTSecurityUser getUserByNick(DTClient client, String nickname);
-    
-    public abstract DTDocument getDocumentByTitle(DTClient client, String titlePlain);
-    
-    public abstract DTDocument getDocumentByTitle(DTClient client, String titlePlain,boolean withFile);
-    
+	public abstract DTDocument getDocumentByTitle(DTClient client,
+			String titlePlain, boolean withFile);
+
+	public abstract DTDocument getDocumentByTitle(DTClient client,
+			String titlePlain, String lang);
+
+	public abstract DTDocument getDocumentByTitle(DTClient client,
+			String titlePlain, String lang, boolean withFile);
+
+	public abstract DTSecurityUser getUserByNick(DTClient client,
+			String nickname);
+
+	public abstract void initAdapter(Properties p);
+
+	public abstract DTText saveText(DTClient client, String text);
+
+	public abstract DTText saveText(DTClient client, String lang, String text);
+	 
+	public abstract DTSecurityUser autenticate(DTClient client, String username, String password);
+	
+	public abstract DTSecurityUser autenticate(String token);
+
 }

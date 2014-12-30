@@ -37,8 +37,29 @@ public class DTClient extends DTBase {
     
     private Integer tokenAppSeconds = 120;
     
+    private String defaultLang = "IT";
     
-    private String encryptKey;
+    private String[] language =  {"IT","EN","FR"};
+    
+    
+    
+    public String getDefaultLang() {
+		return defaultLang;
+	}
+
+	public void setDefaultLang(String defaultLang) {
+		this.defaultLang = defaultLang;
+	}
+
+	public String[] getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String[] language) {
+		this.language = language;
+	}
+
+	private String encryptKey;
 
     @Property(FieldsName.CLIENT_LAST_SYSTEM_UPDATE)
     private Date lastsystemUpdate = new Date();

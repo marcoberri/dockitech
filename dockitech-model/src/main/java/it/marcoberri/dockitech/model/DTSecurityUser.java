@@ -52,7 +52,19 @@ public class DTSecurityUser extends DTBase {
 	@Property(FieldsName.SECURITYUSER_TOKEN_TYPE_APP)
 	private boolean tokenTypeApp = !tokenTypeUser;
 	
+	@Transient
+	private DTToken token = null;
 	    
+	public DTToken getToken() {
+		return token;
+	}
+
+
+	public void setToken(DTToken token) {
+		this.token = token;
+	}
+
+
 	public DTSecurityUser() {
 		super();
 	}

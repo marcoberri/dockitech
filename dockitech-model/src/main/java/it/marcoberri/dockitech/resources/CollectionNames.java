@@ -2,9 +2,11 @@ package it.marcoberri.dockitech.resources;
 
 public class CollectionNames {
     
-    public static final String COLLECTION_DOCUMENT = "document";
-    public static final String COLLECTION_TAG = "tag";
+    public static final String COLLECTION_DOCUMENT = "documents";
+    public static final String COLLECTION_TAG = "tags";
     public static final String COLLECTION_FILES = "files";
+    public static final String COLLECTION_TEXT = "texts";
+    public static final String COLLECTION_DOCUMENT_CONTEXT = "contexts";
     
     
     
