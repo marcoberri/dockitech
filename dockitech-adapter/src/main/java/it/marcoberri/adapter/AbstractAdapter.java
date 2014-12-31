@@ -4,6 +4,7 @@ import it.marcoberri.dockitech.model.DTClient;
 import it.marcoberri.dockitech.model.DTDocument;
 import it.marcoberri.dockitech.model.DTSecurityUser;
 import it.marcoberri.dockitech.model.DTText;
+import it.marcoberri.dockitech.model.DTToken;
 
 import java.util.Properties;
 
@@ -39,5 +40,7 @@ public abstract class AbstractAdapter {
 	public abstract DTSecurityUser autenticate(DTClient client, String username, String password);
 	
 	public abstract DTSecurityUser autenticate(String token);
+	
+	public abstract String saveToken(DTClient clinet, DTSecurityUser user);
 
 }

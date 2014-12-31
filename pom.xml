@@ -7,13 +7,14 @@
 	<description>Documental Archive</description>
 	<packaging>pom</packaging>
 	<modules>
-		<module>dockitech-client</module>
 		<module>dockitech-model</module>
 		<module>dockitech-security</module>
 		<module>dockitech-adapter</module>
 		<module>dockitech-api</module>
 		<module>dockitech-api-client</module>
 		<module>dockitech-api-client-admin</module>
+		<module>dockitech-console</module>
+		
 	</modules>
 
 	<properties>

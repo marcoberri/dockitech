@@ -6,6 +6,7 @@ import it.marcoberri.dockitech.model.DTEncryptionMethod;
 import it.marcoberri.dockitech.model.DTSecurityGroup;
 import it.marcoberri.dockitech.model.DTSecurityUser;
 import it.marcoberri.dockitech.model.DTText;
+import it.marcoberri.dockitech.model.DTToken;
 import it.marcoberri.dockitech.resources.CollectionNames;
 import it.marcoberri.dockitech.resources.Configuration;
 import it.marcoberri.dockitech.resources.FieldsName;
@@ -294,8 +295,26 @@ public class MongoAdapter extends AbstractAdapter {
 	}
 
 	@Override
-	public DTSecurityUser autenticate(DTClient client, String username,String password) {
+	public DTSecurityUser autenticate(DTClient client, String nickname,String password) {
+		/*
+		log.info("try autenticate nickname ["+nickname+ "]  password ["+password+"] client ["+client.getTitle()+"]");
+		
+		DTSecurityUser user = new DTSecurityUser(client);
+		user.setPassword(password);
+		user.setNickname(nickname);
+		DTSecurityUser userResult = datastore.get(user);
+		
+		if(userResult == null){
+			log.error("try autenticate nickname ["+nickname+ "]  password ["+password+"] not found");
+			return null;
+		}
+			DTToken token = new DTToken();
+		
+		
 		// TODO Auto-generated method stub
+		return user;
+	*/
+		
 		return null;
 	}
 
@@ -303,6 +322,21 @@ public class MongoAdapter extends AbstractAdapter {
 	public DTSecurityUser autenticate(String token) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String saveToken(DTClient client, DTSecurityUser user) {
+		
+		
+		//devo verificare se esiste.
+		//se esiste è il client.tokenapp == true devo restituire quello sempre in base alla scadenza
+		//se esiste verifico la scadenza se è scaduto ne restituisco uno nuovo.
+		DTToken token = new DTToken();
+		token.setClient(client);
+		token.setUser(user);
+		datastore.save(token);
+		
+		return token.getId().toString();
 	}
 
 }

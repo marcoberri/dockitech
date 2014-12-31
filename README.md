@@ -1,4 +1,4 @@
 dockitech
 =========
 
-Document Management System
+Servizio di gestione documentale basato su Mongodb 

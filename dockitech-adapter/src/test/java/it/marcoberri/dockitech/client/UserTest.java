@@ -1,4 +1,4 @@
-package it.marcoberri.dockitech;
+package it.marcoberri.dockitech.client;
 
 import it.marcoberri.adapter.MongoAdapter;
 import it.marcoberri.dockitech.model.DTClient;
@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ClientTest {
+public class UserTest {
 
 	@Test
 	public void addDocument() throws IOException {
