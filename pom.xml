@@ -13,15 +13,15 @@
 		<module>dockitech-api</module>
 		<module>dockitech-api-client</module>
 		<module>dockitech-api-client-admin</module>
+
 		<module>dockitech-console</module>
-		
 	</modules>
 
 	<properties>
 		<morphia.version>0.108</morphia.version>
 		<mongo-driver.version>2.12.4</mongo-driver.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework-version>4.1.2.RELEASE</org.springframework-version>
+		<org.springframework-version>4.1.3.RELEASE</org.springframework-version>
 		<org.springframework.boot-version>1.1.8.RELEASE</org.springframework.boot-version>
 		<com.fasterxml.jackson-version>2.4.3</com.fasterxml.jackson-version>
 		<gson.version>2.2.4</gson.version>
@@ -30,7 +30,11 @@
 		<commons-codec.version>1.9</commons-codec.version>	
 		<commons-io.version>2.4</commons-io.version>
 		<log4j.version>2.1</log4j.version>
-		<org.springframework.security>3.2.5.RELEASE</org.springframework.security>
+		<org.springframework.security-version>3.2.5.RELEASE</org.springframework.security-version>
+		<org.springframework.beans-version>4.1.3.RELEASE</org.springframework.beans-version>
+		<org.springframework.expression-version>4.1.3.RELEASE</org.springframework.expression-version>
+		<org.springframework.aop-version>4.1.3.RELEASE</org.springframework.aop-version>
+		
 	</properties>
 	
 	<build>
@@ -46,4 +50,5 @@
       </plugin>
     </plugins>
 	</build>
+	<url>http://tecnicume.blogspot.com</url>
 </project>

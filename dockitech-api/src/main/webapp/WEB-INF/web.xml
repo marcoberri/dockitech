@@ -5,18 +5,40 @@
 
 	<display-name>Dockitech Main Api</display-name>
 
+	<session-config>
+		<session-timeout>1</session-timeout>
+	</session-config>
+	
+	
+   <servlet>
+      <servlet-name>context</servlet-name>
+      <servlet-class>
+         org.springframework.web.servlet.DispatcherServlet
+      </servlet-class>
+      
+         <init-param>
+     <param-name>contextConfigLocation</param-name>
+     <param-value>classpath:spring/context-servlet.xml</param-value>
+   </init-param>
+   
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+
+   <servlet-mapping>
+      <servlet-name>context</servlet-name>
+      <url-pattern>/</url-pattern>
+   </servlet-mapping>
+   
+	<!-- Spring Security 
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
-		<async-supported>true</async-supported>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-
 	</filter>
-
-
-
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+-->
 </web-app>
     

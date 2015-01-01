@@ -1,4 +1,4 @@
-package it.marcoberri.adapter;
+package it.marcoberri.dockitech.adapter;
 
 import it.marcoberri.dockitech.model.DTClient;
 import it.marcoberri.dockitech.model.DTDocument;

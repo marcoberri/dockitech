@@ -1,6 +1,6 @@
 package it.marcoberri.dockitech;
 
-import it.marcoberri.adapter.MongoAdapter;
+import it.marcoberri.dockitech.adapter.MongoAdapter;
 import it.marcoberri.dockitech.model.DTClient;
 
 import org.junit.Assert;

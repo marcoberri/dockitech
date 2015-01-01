@@ -1,6 +1,6 @@
 package it.marcoberri.dockitech.client;
 
-import it.marcoberri.adapter.MongoAdapter;
+import it.marcoberri.dockitech.adapter.MongoAdapter;
 import it.marcoberri.dockitech.model.DTClient;
 import it.marcoberri.dockitech.model.DTDocument;
 import it.marcoberri.dockitech.model.DTSecurityUser;
