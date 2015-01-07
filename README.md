@@ -21,5 +21,5 @@ dockitech-security :  metodi di encrypt e decrypt dei dati archiviati
 
 
 
-![alt tag](http://www.websequencediagrams.com/?lz=dGl0bGUgRG9ja2l0ZWNoIE1vZHVsZXMKCk1vZGVsLT5TZWN1cml0eSA6CkFkYXB0ZXItPgAWBSA6RW5jcnlwdC9EZQADBQAqCAAgBzoKADMIABgZQVBJACUKIApDbGllbnQtPkFQSSA6AAcHQWRtaW4ACglvbnNvbGUtPgAkBiA6CkFwcHMABQogQWx0cmUgQXBwcwoKCgoKCgoKCgo&s=earth)
+![alt tag](http://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgRG9ja2l0ZWNoIE1vZHVsZXMKCk1vZGVsLT5TZWN1cml0eSA6CkFkYXB0ZXItPgAWBSA6RW5jcnlwdC9EZQADBQAqCAAgBzoKADMIABgZQVBJACUKIApDbGllbnQtPkFQSSA6AAcHQWRtaW4ACglvbnNvbGUtPgAkBiA6CkFwcHMABQogQWx0cmUgQXBwcwoKCgoKCgoKCgo&s=earth)
 
