@@ -12,23 +12,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 @Controller
 @RequestMapping(value = "/" + PathNames.USER + "/{" + PathNames.CLIENT_TITLE + "}")
 public class User {
-    
-	static Logger log = LogManager.getLogger(User.class);
-	
-    
-    @RequestMapping( value = PathNames.AUTENTICATE ,method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody  DTSecurityUser autenticatebyUsernamePassword(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username,String password) {
-    	return null;
+
+    static Logger log = LogManager.getLogger(User.class);
+
+    @RequestMapping(value = PathNames.AUTENTICATE, method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    DTSecurityUser autenticatebyUsernamePassword(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username, String password) {
+	return null;
     }
-    
-    @RequestMapping( value = PathNames.AUTENTICATE_TOKEN ,method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody  DTSecurityUser autenticateToken(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username,String password) {
-    	return null;
+
+    @RequestMapping(value = PathNames.AUTENTICATE_TOKEN, method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    DTSecurityUser autenticateToken(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username, String password) {
+	return null;
     }
-    
-    
+
 }

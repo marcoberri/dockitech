@@ -15,14 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/" + PathNames.SYSTEM)
 public class System {
 
-	static Logger log = LogManager.getLogger(System.class);
+    static Logger log = LogManager.getLogger(System.class);
 
-	@RequestMapping(value = "/" + PathNames.STATUS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody JSONResult status() {
+    @RequestMapping(value = "/" + PathNames.STATUS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    JSONResult status() {
 
-		final JSONResult res = new JSONResult();
-		res.setSuccess(true);
-		return res;
-	}
+	final JSONResult res = new JSONResult();
+	res.setSuccess(true);
+	return res;
+    }
 
 }

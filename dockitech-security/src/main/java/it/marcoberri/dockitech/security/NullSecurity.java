@@ -2,7 +2,6 @@ package it.marcoberri.dockitech.security;
 
 public class NullSecurity extends AbstractSecurity {
 
-   
     @Override
     public byte[] encrypt(byte[] b, String key) {
 	return b;

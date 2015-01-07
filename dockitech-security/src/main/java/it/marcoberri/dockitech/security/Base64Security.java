@@ -14,7 +14,7 @@ public class Base64Security extends AbstractSecurity {
     @Override
     public String encrypt(String b, String key) {
 	try {
-	    return  new String(encrypt(b.getBytes(), key),"UTF-8");
+	    return new String(encrypt(b.getBytes(), key), "UTF-8");
 	} catch (final UnsupportedEncodingException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -30,7 +30,7 @@ public class Base64Security extends AbstractSecurity {
     @Override
     public String decrypt(String b, String key) {
 	try {
-	    return new String(decrypt(b.getBytes(), key),"UTF-8");
+	    return new String(decrypt(b.getBytes(), key), "UTF-8");
 	} catch (final UnsupportedEncodingException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();

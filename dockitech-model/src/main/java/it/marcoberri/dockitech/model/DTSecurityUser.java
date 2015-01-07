@@ -18,175 +18,168 @@ import org.mongodb.morphia.utils.IndexDirection;
 @Entity(value = CollectionNames.SECURITY_USER, noClassnameStored = true)
 public class DTSecurityUser extends DTBase {
 
-	@Indexed(value = IndexDirection.ASC, unique = true, dropDups = true)
-	@Property(FieldsName.SECURITYUSER_NICKNAME)
-	private String nickname;
+    @Indexed(value = IndexDirection.ASC, unique = true, dropDups = true)
+    @Property(FieldsName.SECURITYUSER_NICKNAME)
+    private String nickname;
 
-	@Transient
-	private DTEncryptionMethod encryptClass;
+    @Transient
+    private DTEncryptionMethod encryptClass;
 
-	@Property(FieldsName.SECURITYUSER_NAME)
-	private String name;
+    @Property(FieldsName.SECURITYUSER_NAME)
+    private String name;
 
-	@Property(FieldsName.SECURITYUSER_USERNAME)
-	private String surname;
+    @Property(FieldsName.SECURITYUSER_USERNAME)
+    private String surname;
 
-	@Property(FieldsName.SECURITYUSER_PASSWORD)
-	private String password;
+    @Property(FieldsName.SECURITYUSER_PASSWORD)
+    private String password;
 
-	@Reference(FieldsName.SECURITYUSER_CLIENT)
-	private DTClient client;
+    @Reference(FieldsName.SECURITYUSER_CLIENT)
+    private DTClient client;
 
-	@Reference(FieldsName.SECURITYUSER_GROUP)
-	private List<DTSecurityGroup> securityGroup;
+    @Reference(FieldsName.SECURITYUSER_GROUP)
+    private List<DTSecurityGroup> securityGroup;
 
-	@Property(FieldsName.SECURITYUSER_LASTACCESS)
-	private Date lastAccess = new Date();
+    @Property(FieldsName.SECURITYUSER_LASTACCESS)
+    private Date lastAccess = new Date();
 
-	@Property(FieldsName.SECURITYUSER_LAST_SYSTEM_UPDATE)
-	private Date lastsystemUpdate = new Date();
+    @Property(FieldsName.SECURITYUSER_LAST_SYSTEM_UPDATE)
+    private Date lastsystemUpdate = new Date();
 
-	@Property(FieldsName.SECURITYUSER_TOKEN_TYPE_USER)
-	private boolean tokenTypeUser = true;
-	
-	@Property(FieldsName.SECURITYUSER_TOKEN_TYPE_APP)
-	private boolean tokenTypeApp = !tokenTypeUser;
-	
-	@Transient
-	private DTToken token = null;
-	    
-	public DTToken getToken() {
-		return token;
-	}
+    @Property(FieldsName.SECURITYUSER_TOKEN_TYPE_USER)
+    private boolean tokenTypeUser = true;
 
+    @Property(FieldsName.SECURITYUSER_TOKEN_TYPE_APP)
+    private boolean tokenTypeApp = !tokenTypeUser;
 
-	public void setToken(DTToken token) {
-		this.token = token;
-	}
+    @Transient
+    private DTToken token = null;
 
+    public DTToken getToken() {
+	return token;
+    }
 
-	public DTSecurityUser() {
-		super();
-	}
+    public void setToken(DTToken token) {
+	this.token = token;
+    }
 
-	
-	public boolean isTokenTypeUser() {
-	    return tokenTypeUser;
-	}
+    public DTSecurityUser() {
+	super();
+    }
 
+    public boolean isTokenTypeUser() {
+	return tokenTypeUser;
+    }
 
-	public void setTokenTypeUser(boolean tokenTypeUser) {
-	    this.tokenTypeUser = tokenTypeUser;
-	    this.tokenTypeApp = !tokenTypeUser;
-	    
-	}
+    public void setTokenTypeUser(boolean tokenTypeUser) {
+	this.tokenTypeUser = tokenTypeUser;
+	this.tokenTypeApp = !tokenTypeUser;
 
+    }
 
-	public boolean isTokenTypeApp() {
-	    return tokenTypeApp;
-	}
+    public boolean isTokenTypeApp() {
+	return tokenTypeApp;
+    }
 
+    public void setTokenTypeApp(boolean tokenTypeApp) {
+	this.tokenTypeApp = tokenTypeApp;
+	this.tokenTypeUser = !tokenTypeApp;
+    }
 
-	public void setTokenTypeApp(boolean tokenTypeApp) {
-	    this.tokenTypeApp = tokenTypeApp;
-	    this.tokenTypeUser = !tokenTypeApp;
-	}
+    public DTSecurityUser(DTClient client) {
+	this.client = client;
+    }
 
+    public void addSecurityGroup(DTSecurityGroup group) {
+	if (securityGroup == null)
+	    securityGroup = new ArrayList<DTSecurityGroup>();
 
-	public DTSecurityUser(DTClient client) {
-		this.client = client;
-	}
+	securityGroup.add(group);
+    }
 
-	public void addSecurityGroup(DTSecurityGroup group) {
-		if (securityGroup == null)
-			securityGroup = new ArrayList<DTSecurityGroup>();
+    public void setPassword(String password) {
+	this.password = encrypt(password, client);
+    }
 
-		securityGroup.add(group);
-	}
+    @PrePersist
+    void prePersist() {
+	lastsystemUpdate = new Date();
+    }
 
-	public void setPassword(String password) {
-		this.password = encrypt(password, client);
-	}
+    public DTEncryptionMethod getEncryptClass() {
+	return encryptClass;
+    }
 
-	@PrePersist
-	void prePersist() {
-		lastsystemUpdate = new Date();
-	}
+    public void setEncryptClass(DTEncryptionMethod encryptClass) {
+	this.encryptClass = encryptClass;
+    }
 
-	public DTEncryptionMethod getEncryptClass() {
-		return encryptClass;
-	}
+    public List<DTSecurityGroup> getSecurityGroup() {
+	return securityGroup;
+    }
 
-	public void setEncryptClass(DTEncryptionMethod encryptClass) {
-		this.encryptClass = encryptClass;
-	}
+    public void setSecurityGroup(List<DTSecurityGroup> securityGroup) {
+	this.securityGroup = securityGroup;
+    }
 
-	public List<DTSecurityGroup> getSecurityGroup() {
-		return securityGroup;
-	}
+    public String getPassword() {
+	return password;
+    }
 
-	public void setSecurityGroup(List<DTSecurityGroup> securityGroup) {
-		this.securityGroup = securityGroup;
-	}
+    public String getNickname() {
+	return decrypt(nickname, this.client);
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getNicknameEncrypt() {
+	return nickname;
+    }
 
-	public String getNickname() {
-		return decrypt(nickname, this.client);
-	}
+    public void setNickname(String nickname) {
+	this.nickname = encrypt(nickname, client);
+    }
 
-	public String getNicknameEncrypt() {
-		return nickname;
-	}
+    public String getName() {
+	return decrypt(name, client);
+    }
 
-	public void setNickname(String nickname) {
-		this.nickname = encrypt(nickname, client);
-	}
+    public void setName(String name) {
+	this.name = encrypt(name, client);
+    }
 
-	public String getName() {
-		return decrypt(name, client);
-	}
+    public String getSurname() {
+	return decrypt(surname, client);
+    }
 
-	public void setName(String name) {
-		this.name = encrypt(name, client);
-	}
+    public void setSurname(String surname) {
+	this.surname = encrypt(surname, client);
+    }
 
-	public String getSurname() {
-		return decrypt(surname, client);
-	}
+    public DTClient getClient() {
+	return client;
+    }
 
-	public void setSurname(String surname) {
-		this.surname = encrypt(surname,client);
-	}
+    public void setClient(DTClient client) {
+	this.client = client;
+    }
 
-	public DTClient getClient() {
-		return client;
-	}
+    public Date getLastsystemUpdate() {
+	return lastsystemUpdate;
+    }
 
-	public void setClient(DTClient client) {
-		this.client = client;
-	}
+    public void setLastsystemUpdate(Date lastsystemUpdate) {
+	this.lastsystemUpdate = lastsystemUpdate;
+    }
 
-	public Date getLastsystemUpdate() {
-		return lastsystemUpdate;
-	}
+    public Date getLastAccess() {
+	return lastAccess;
+    }
 
-	public void setLastsystemUpdate(Date lastsystemUpdate) {
-		this.lastsystemUpdate = lastsystemUpdate;
-	}
+    public void setLastAccess(Date lastAccess) {
+	this.lastAccess = lastAccess;
+    }
 
-	public Date getLastAccess() {
-		return lastAccess;
-	}
-
-	public void setLastAccess(Date lastAccess) {
-		this.lastAccess = lastAccess;
-	}
-
-	public boolean verifyPassword(String plain) {
-		return true;
-	}
+    public boolean verifyPassword(String plain) {
+	return true;
+    }
 
 }

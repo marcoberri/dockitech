@@ -17,9 +17,6 @@ public class CipherSecurity extends AbstractSecurity {
 
     static String IV = "AAAAAAAAAAAAAAAA";
 
-
-
-
     @Override
     public byte[] encrypt(byte[] b, String key) {
 	try {

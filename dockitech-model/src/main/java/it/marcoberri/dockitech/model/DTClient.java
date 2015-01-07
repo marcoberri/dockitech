@@ -32,34 +32,32 @@ public class DTClient extends DTBase {
 
     @Reference
     private DTEncryptionMethod encryptClass;
-    
+
     private Integer tokenUserSeconds = 120;
-    
+
     private Integer tokenAppSeconds = 120;
-    
+
     private String defaultLang = "IT";
-    
-    private String[] language =  {"IT","EN","FR"};
-    
-    
-    
+
+    private String[] language = { "IT", "EN", "FR" };
+
     public String getDefaultLang() {
-		return defaultLang;
-	}
+	return defaultLang;
+    }
 
-	public void setDefaultLang(String defaultLang) {
-		this.defaultLang = defaultLang;
-	}
+    public void setDefaultLang(String defaultLang) {
+	this.defaultLang = defaultLang;
+    }
 
-	public String[] getLanguage() {
-		return language;
-	}
+    public String[] getLanguage() {
+	return language;
+    }
 
-	public void setLanguage(String[] language) {
-		this.language = language;
-	}
+    public void setLanguage(String[] language) {
+	this.language = language;
+    }
 
-	private String encryptKey;
+    private String encryptKey;
 
     @Property(FieldsName.CLIENT_LAST_SYSTEM_UPDATE)
     private Date lastsystemUpdate = new Date();
@@ -69,27 +67,27 @@ public class DTClient extends DTBase {
     }
 
     public Integer getTokenUserSeconds() {
-        return tokenUserSeconds;
+	return tokenUserSeconds;
     }
 
     public void setTokenUserSeconds(Integer tokenUserSeconds) {
-        this.tokenUserSeconds = tokenUserSeconds;
+	this.tokenUserSeconds = tokenUserSeconds;
     }
 
     public Integer getTokenAppSeconds() {
-        return tokenAppSeconds;
+	return tokenAppSeconds;
     }
 
     public void setTokenAppSeconds(Integer tokenAppSeconds) {
-        this.tokenAppSeconds = tokenAppSeconds;
+	this.tokenAppSeconds = tokenAppSeconds;
     }
 
     public String getEncryptKey() {
-        return encryptKey;
+	return encryptKey;
     }
 
     public void setEncryptKey(String encryptKey) {
-        this.encryptKey = encryptKey;
+	this.encryptKey = encryptKey;
     }
 
     public DTEncryptionMethod getEncryptClass() {

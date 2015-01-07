@@ -18,94 +18,93 @@ public class DTText extends DTBase {
     }
 
     public DTText(DTClient client, String lang, String value) {
-    	this.client = client;
-    	this.putValue(lang, value);
-    	
+	this.client = client;
+	this.putValue(lang, value);
+
     }
 
-    public DTText(DTClient client,  String value) {
-    	this.client = client;
-    	this.putValue(client.getDefaultLang(), value);
+    public DTText(DTClient client, String value) {
+	this.client = client;
+	this.putValue(client.getDefaultLang(), value);
     }
-    
+
     public DTText() {
 	super();
     }
 
-	@Reference(FieldsName.TEXT_CLIENT)
-	private DTClient client;
-	
-	@Reference(FieldsName.TEXT_DOCUMENT)
-	private DTDocument document;
-	
+    @Reference(FieldsName.TEXT_CLIENT)
+    private DTClient client;
+
+    @Reference(FieldsName.TEXT_DOCUMENT)
+    private DTDocument document;
 
     public DTDocument getDocument() {
-		return document;
+	return document;
+    }
+
+    public void setDocument(DTDocument document) {
+	this.document = document;
+    }
+
+    public Map<String, String> getMap() {
+	return map;
+    }
+
+    public void setMap(Map<String, String> map) {
+	this.map = map;
+    }
+
+    @Property(FieldsName.TEXT_VALUE)
+    private Map<String, String> map;
+
+    public DTClient getClient() {
+	return client;
+    }
+
+    public void setClient(DTClient client) {
+	this.client = client;
+    }
+
+    public void putValue(String value) {
+	putValue(null, value);
+    }
+
+    public void putValue(String lang, String value) {
+
+	if (lang == null && client != null) {
+	    lang = client.getDefaultLang();
 	}
 
-	public void setDocument(DTDocument document) {
-		this.document = document;
-	}
+	if (map == null)
+	    map = new HashMap<String, String>();
+	lang = lang.toUpperCase();
 
-	public Map<String, String> getMap() {
-		return map;
-	}
+	map.put(encrypt(lang, client), encrypt(value, client));
+    }
 
-	public void setMap(Map<String, String> map) {
-		this.map = map;
-	}
+    public String getValueFromEncryptKey(String key) {
+	key = key.toUpperCase();
+	return decrypt(map.get(key), client);
+    }
 
-	@Property(FieldsName.TEXT_VALUE)
-    private Map<String,String> map;
+    public String getValueFromDecryptKey(String key) {
+	key = key.toUpperCase();
+	return decrypt(map.get(encrypt(key, client)), client);
+    }
 
-	public DTClient getClient() {
-		return client;
-	}
+    public String getValueEncryptFromEncryptKey(String key) {
 
-	public void setClient(DTClient client) {
-		this.client = client;
-	}
+	return map.get(key);
+    }
 
-	public void putValue(String value) {
-		putValue(null ,value);
-	}
-	
-	public void putValue(String lang ,String value) {
-		
-		if(lang ==null && client != null){
-			lang = client.getDefaultLang();
-		}
-		
-		if(map == null)
-			map = new HashMap<String,String>();
-		lang = lang.toUpperCase();
-		
-		map.put(encrypt(lang, client), encrypt(value, client));
-	}
+    public String getValueEncryptFromDecryptKey(String key) {
+	key = key.toUpperCase();
+	return map.get(encrypt(key, client));
+    }
 
-	public String getValueFromEncryptKey(String key) {
-		key = key.toUpperCase();
-		return decrypt(map.get(key),client);
-	}
+    public String getLangEncrypt(String lang) {
+	lang = lang.toUpperCase();
+	return encrypt(lang, client);
+    }
 
-	public String getValueFromDecryptKey(String key) {
-		key = key.toUpperCase();
-		return decrypt(map.get(encrypt(key, client)),client);
-	}
-
-	public String getValueEncryptFromEncryptKey(String key) {
-		
-		return map.get(key);
-	}
-
-	public String getValueEncryptFromDecryptKey(String key) {
-		key = key.toUpperCase();
-		return map.get(encrypt(key, client));
-	}
-	public String getLangEncrypt(String lang) {
-		lang = lang.toUpperCase();
-		return encrypt(lang,client);
-	}
-    
-    
 }

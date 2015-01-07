@@ -12,26 +12,12 @@ import com.mongodb.MongoClient;
 public class Main {
 
     public static void main(String[] args) throws UnknownHostException {
-	
-	
-	
 
-
-	
-	
-	
 	/*
-	final DTDocument doc = new DTDocument();
-	doc.addTag("banana");
-	doc.addTag("mela");
-	doc.addTag("pera");
-	doc.addTag("carciofo");
-	datastore.save(doc);
-	
-	*/
-	
-	
-	
+	 * final DTDocument doc = new DTDocument(); doc.addTag("banana");
+	 * doc.addTag("mela"); doc.addTag("pera"); doc.addTag("carciofo");
+	 * datastore.save(doc);
+	 */
 
     }
 
