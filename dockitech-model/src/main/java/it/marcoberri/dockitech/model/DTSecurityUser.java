@@ -178,8 +178,11 @@ public class DTSecurityUser extends DTBase {
 	this.lastAccess = lastAccess;
     }
 
-    public boolean verifyPassword(String plain) {
-	return true;
+    public boolean verifyPasswordPlain(String plain) {
+	if(password.equals(encrypt(plain,client)))
+	    return true;
+	
+	return false;
     }
 
 }

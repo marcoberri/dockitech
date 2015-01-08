@@ -70,5 +70,19 @@ public final class FieldsName {
     public static final String DOC_CONTEXT_VERSION = "MJU";
     public static final String TEXT_DOCUMENT = "REW";
     public static final String SECURITYUSER_ACTUAL_TOKEN = "WW";
-
+    public static final String PERMISSION_USER_USER = "QQ";
+    public static final String PERMISSION_USER_CLIENT = "WeW";
+    public static final String PERMISSION_USER_OBJECT = "XUP";
+    public static final String PERMISSION_USER_OBJECT_ID = "WWX";
+    public static final String PERMISSION_USER_ACTION = "EFD";
+    public static final String PERMISSION_USER_AUTH = "SQA";
+    public static final String PERMISSION_USER_TYPE = "QAZ";
+    public static final String PERMISSION_GROUP_USER = "QQ";
+    public static final String PERMISSION_GROUP_CLIENT = "WeW";
+    public static final String PERMISSION_GROUP_OBJECT = "XUP";
+    public static final String PERMISSION_GROUP_OBJECT_ID = "WWX";
+    public static final String PERMISSION_GROUP_ACTION = "EFD";
+    public static final String PERMISSION_GROUP_AUTH = "SQA";
+    public static final String PERMISSION_GROUP_TYPE = "QAZ";
+    
 }

@@ -180,11 +180,11 @@ public class MongoAdapter extends AbstractAdapter {
 	final Query<DTText> query = datastore.createQuery(DTText.class);
 	query.filter(FieldsName.TEXT_CLIENT + " = ", client).filter(FieldsName.TEXT_VALUE + "." + lang + " = ", docFilter.getTitle().getValueEncryptFromEncryptKey(lang));
 
-	System.out.println("query -->" + query.toString());
+	log.debug("query -->" + query.toString());
 
 	DTText title = query.get();
 
-	System.out.println("id -->" + title.getDocument().getId().toString());
+	log.debug("id -->" + title.getDocument().getId().toString());
 
 	final DTDocument docResult = datastore.createQuery(DTDocument.class).filter("_id = ", title.getDocument().getId()).get();
 
@@ -193,9 +193,8 @@ public class MongoAdapter extends AbstractAdapter {
 	    docResult.setFileNameEnrypt(file.getFilename());
 	    try {
 		docResult.setByteFileEncrypt(IOUtils.toByteArray(file.getInputStream()));
-	    } catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	    } catch (final IOException e) {
+		log.error("MongoAdapter.getDocumentByTitle -->", e);
 	    }
 
 	    docResult.setContentTypeEncrypt(file.getContentType());
@@ -221,7 +220,7 @@ public class MongoAdapter extends AbstractAdapter {
 	    log.info("Load properties:" + properties);
 	    initMongo(properties);
 	} catch (final IOException e) {
-	    log.fatal(e);
+	    log.fatal("MongoAdapter.initAdapter -->", e);
 	    e.printStackTrace();
 	}
 
@@ -245,7 +244,7 @@ public class MongoAdapter extends AbstractAdapter {
 	    try {
 		serveHostList.add(new ServerAddress(name, port));
 	    } catch (final UnknownHostException e) {
-		log.fatal(e);
+		log.fatal("MongoAdapter.initMongo -->", e);
 	    }
 
 	}
@@ -276,46 +275,63 @@ public class MongoAdapter extends AbstractAdapter {
     }
 
     @Override
-    public DTSecurityUser autenticate(DTClient client, String nickname, String password) {
-	/*
-	 * log.info("try autenticate nickname ["+nickname+
-	 * "]  password ["+password+"] client ["+client.getTitle()+"]");
-	 * 
-	 * DTSecurityUser user = new DTSecurityUser(client);
-	 * user.setPassword(password); user.setNickname(nickname);
-	 * DTSecurityUser userResult = datastore.get(user);
-	 * 
-	 * if(userResult == null){
-	 * log.error("try autenticate nickname ["+nickname+
-	 * "]  password ["+password+"] not found"); return null; } DTToken token
-	 * = new DTToken();
-	 * 
-	 * 
-	 * // TODO Auto-generated method stub return user;
-	 */
+    public DTToken autenticate(DTClient client, String nickname, String password) {
 
-	return null;
+	final DTSecurityUser user = getUserByNick(client, nickname);
+
+	if (user == null)
+	    return null;
+
+	if (!user.verifyPasswordPlain(password))
+	    return null;
+
+
+	return saveToken(client,  user);
+	
+	
     }
 
     @Override
-    public DTSecurityUser autenticate(String token) {
+    public DTToken autenticate(DTClient client, String token) {
 	// TODO Auto-generated method stub
 	return null;
     }
 
-    @Override
-    public String saveToken(DTClient client, DTSecurityUser user) {
+    public DTToken autenticate(String token) {
+	return autenticate(null, token);
+    }
 
-	// devo verificare se esiste.
-	// se esiste è il client.tokenapp == true devo restituire quello sempre
-	// in base alla scadenza
-	// se esiste verifico la scadenza se è scaduto ne restituisco uno nuovo.
+    @Override
+    public DTToken saveToken(DTClient client, DTSecurityUser user) {
+	
+	final DTToken verifyToken = getToken( client,  user);
+
+	if(verifyToken != null){
+	    return verifyToken;
+	}
+	
 	DTToken token = new DTToken();
 	token.setClient(client);
 	token.setUser(user);
 	datastore.save(token);
 
-	return token.getId().toString();
+	return token;
+    }
+
+    public DTToken getToken(DTClient client, DTSecurityUser user) {
+
+	final DTToken verifyToken = datastore.createQuery(DTToken.class).filter(FieldsName.SYSTEM_TOKEN_USER + " = ", user).filter(FieldsName.SYSTEM_TOKEN_CLIENT + " = ", client).filter(FieldsName.SYSTEM_TOKEN_VALID + " = ", true).get();    
+
+	if(verifyToken != null){
+	    return verifyToken;
+	}
+
+	return null;
+    }
+    
+    @Override
+    public DTClient getClientByTitle(String title) {
+	return datastore.createQuery(DTClient.class).filter(FieldsName.CLIENT_TITLE + " = ", title).get();
     }
 
 }

@@ -2,22 +2,22 @@ package it.marcoberri.dockitech.model;
 
 import java.util.Date;
 
-import org.bson.types.ObjectId;
-
 public class DTHistory {
 
-    private ObjectId fileId;
+    private String fileId;
 
     private Date lastOperation;
 
     private double version;
 
-    public ObjectId getFileId() {
-	return fileId;
+
+
+    public String getFileId() {
+        return fileId;
     }
 
-    public void setFileId(ObjectId fileId) {
-	this.fileId = fileId;
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
     }
 
     public Date getLastOperation() {

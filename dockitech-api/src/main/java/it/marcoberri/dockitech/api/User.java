@@ -1,6 +1,6 @@
 package it.marcoberri.dockitech.api;
 
-import it.marcoberri.dockitech.model.DTSecurityUser;
+import it.marcoberri.dockitech.api.modelresponse.JSONResult;
 import it.marcoberri.dockitech.resources.PathNames;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,16 +18,30 @@ public class User {
 
     static Logger log = LogManager.getLogger(User.class);
 
+    final JSONResult res = new JSONResult();
+	
     @RequestMapping(value = PathNames.AUTENTICATE, method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    DTSecurityUser autenticatebyUsernamePassword(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username, String password) {
-	return null;
+    JSONResult autenticatebyUsernamePassword(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username, String password) {
+	
+	res.setSuccess(true);
+	return res;
+
     }
 
     @RequestMapping(value = PathNames.AUTENTICATE_TOKEN, method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    DTSecurityUser autenticateToken(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username, String password) {
-	return null;
+    JSONResult autenticateToken(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username, String password) {
+	
+	
+	
+
+	res.setSuccess(true);
+	return res;
+	
+	
     }
+    
+    
 
 }

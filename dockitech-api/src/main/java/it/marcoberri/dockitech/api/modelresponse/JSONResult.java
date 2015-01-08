@@ -1,4 +1,4 @@
-package it.marcoberri.dockitech.modelresponse;
+package it.marcoberri.dockitech.api.modelresponse;
 
 import it.marcoberri.dockitech.resources.Configuration;
 

@@ -21,7 +21,6 @@ public class DocumentTest {
     public void addDocument() throws IOException {
 
 	final MongoAdapter adapter = new MongoAdapter();
-	adapter.dropWorld();
 
 	final String title = "first document title test";
 	final String description = "first document title test";

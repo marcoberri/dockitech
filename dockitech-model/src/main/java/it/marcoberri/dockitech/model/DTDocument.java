@@ -186,7 +186,7 @@ public class DTDocument extends DTBase {
 
     public void addHistory(ObjectId id, double v) {
 	final DTHistory h = new DTHistory();
-	h.setFileId(id);
+	h.setFileId(id.toString());
 	h.setVersion(v);
 	if (history == null)
 	    history = new ArrayList<DTHistory>();
@@ -227,7 +227,8 @@ public class DTDocument extends DTBase {
 
     public void setFileId(ObjectId fileId) {
 	if (this.fileId != null) {
-	    addHistory(this.fileId, this.version);
+	    //addHistory(this.fileId, this.version);
+	    //TODO
 	}
 	// this.version += 1;
 	this.fileId = fileId;

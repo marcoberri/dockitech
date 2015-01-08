@@ -1,6 +1,6 @@
 package it.marcoberri.dockitech.api;
 
-import it.marcoberri.dockitech.modelresponse.JSONResult;
+import it.marcoberri.dockitech.api.modelresponse.JSONResult;
 import it.marcoberri.dockitech.resources.PathNames;
 
 import org.apache.logging.log4j.LogManager;

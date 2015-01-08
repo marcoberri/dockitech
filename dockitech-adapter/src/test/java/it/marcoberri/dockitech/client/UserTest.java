@@ -5,6 +5,7 @@ import it.marcoberri.dockitech.model.DTClient;
 import it.marcoberri.dockitech.model.DTDocument;
 import it.marcoberri.dockitech.model.DTSecurityUser;
 import it.marcoberri.dockitech.model.DTText;
+import it.marcoberri.dockitech.model.DTToken;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +22,6 @@ public class UserTest {
     public void addDocument() throws IOException {
 
 	final MongoAdapter adapter = new MongoAdapter();
-	adapter.dropWorld();
-
 	final String title = "first document title test";
 	final String description = "first document title test";
 
@@ -58,6 +57,84 @@ public class UserTest {
 	Assert.assertTrue("title not match" + title + " !=" + resultFindDoc.getTitle().getValueFromDecryptKey(client.getDefaultLang()), title.equals(resultFindDoc.getTitle().getValueFromDecryptKey(client.getDefaultLang())));
 
 	Assert.assertTrue("description not match" + description + " !=" + resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang()), description.equals(resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang())));
+
+	adapter.dropWorld();
+    }
+
+    @Test
+    public void addMassiveDocument() throws IOException {
+
+	final MongoAdapter adapter = new MongoAdapter();
+	final String title = "first document title test";
+	final String description = "first document title test";
+
+	DTClient client = new DTClient();
+	client.setTitle("WORLD");
+	client = adapter.createWorld(client);
+	Assert.assertNotNull(client);
+
+	final DTSecurityUser user = adapter.getUserByNick(client, "admin");
+	Assert.assertNotNull(user);
+
+	
+
+	final File file = new File(this.getClass().getResource("/sunrise.jpeg").getPath());
+	Path path = Paths.get(file.getAbsolutePath());
+	byte[] data = Files.readAllBytes(path);
+
+	for (int i = 0; i < 100; i++) {
+
+	    final String title_ext = title + " - " + i;
+	    final String description_ext = description + " - " + i;
+
+	    final DTDocument doc = new DTDocument(client);
+	    doc.addSecurityUser(user);
+	    doc.setSecurityGroup(doc.getSecurityGroup());
+	    doc.setTitle(new DTText(client, title_ext));
+	    doc.setDescription(new DTText(client, description + " - " + i));
+	    doc.setFile(file);
+	    doc.setByteFile(data);
+
+	    final DTDocument docResult = adapter.addDocument(doc);
+	    Assert.assertNotNull("doc is null", docResult);
+
+	    final DTDocument resultFindDoc = adapter.getDocumentByTitle(client, title_ext);
+	    Assert.assertNotNull("doc retirved is null", resultFindDoc);
+
+	    Assert.assertTrue("title not match" + title_ext + " !=" + resultFindDoc.getTitle().getValueFromDecryptKey(client.getDefaultLang()), title_ext.equals(resultFindDoc.getTitle().getValueFromDecryptKey(client.getDefaultLang())));
+
+	    Assert.assertTrue("description not match" + description_ext + " !=" + resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang()), description_ext.equals(resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang())));
+	}
+
+	adapter.dropWorld();
+    }
+
+    @Test
+    public void autenticate() throws IOException {
+
+	final MongoAdapter adapter = new MongoAdapter();
+
+	DTClient client = new DTClient();
+	client.setTitle("WORLD");
+	client = adapter.createWorld(client);
+	Assert.assertNotNull(client);
+
+	final DTClient clientLoaded = adapter.getClientByTitle("WORLD");
+	Assert.assertNotNull(clientLoaded);
+
+	final DTToken tokenTrue = adapter.autenticate(clientLoaded, "admin", "admin123!");
+	Assert.assertNotNull("token is null", tokenTrue);
+
+	final DTToken tokenFalse = adapter.autenticate(clientLoaded, "admadasdin", "admin12asd3!");
+	Assert.assertNull("token is null", tokenFalse);
+
+	final DTToken tokenTrue2 = adapter.autenticate(clientLoaded, "admin", "admin123!");
+	Assert.assertNotNull("token2 is null", tokenTrue2);
+
+	final String firstToken = tokenTrue.getId().toString();
+	final String secondToken = tokenTrue2.getId().toString();
+
+	Assert.assertTrue("tokens not match", firstToken.equals(secondToken));
 
 	adapter.dropWorld();
     }

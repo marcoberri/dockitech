@@ -13,17 +13,5 @@ public class Admin {
 
     static Logger log = LogManager.getLogger(Admin.class);
 
-    /*
-     * @RequestMapping( method = RequestMethod.POST, consumes =
-     * MediaType.APPLICATION_JSON_VALUE, produces =
-     * MediaType.APPLICATION_JSON_VALUE) public @ResponseBody void
-     * doLog(@PathVariable(ClarinetApiContext.CODCLIENTE) String codCliente,
-     * @RequestBody it.skylab.clarinet.model.api.logger.ClarinetLogger model) {
-     * 
-     * try { final AsyncLogger asyncLogger = new AsyncLogger(codCliente, model);
-     * asyncLogger.run(); } catch (final Exception e) {
-     * logger.error("ClarinetLogger.doLog -->" + e); } res.setSuccess(true);
-     * return res; }
-     */
 
 }

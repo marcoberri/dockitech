@@ -16,5 +16,8 @@ public class CollectionNames {
     public static final String SECURITY_GROUP = "security.group";
     public static final String SECURITY_TOKEN = "security.token";
     public static final String SECURITY_USER = "security.user";
+    
+    public static final String PERMISSION_USER = "permission.user";
+    public static final String PERMISSION_GROUP = "permission.group";
 
 }

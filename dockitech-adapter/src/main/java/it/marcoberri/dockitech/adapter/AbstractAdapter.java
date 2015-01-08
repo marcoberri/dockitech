@@ -32,10 +32,17 @@ public abstract class AbstractAdapter {
 
     public abstract DTText saveText(DTClient client, String lang, String text);
 
-    public abstract DTSecurityUser autenticate(DTClient client, String username, String password);
+    public abstract DTToken autenticate(DTClient client, String username, String password);
 
-    public abstract DTSecurityUser autenticate(String token);
+    public abstract DTToken autenticate(DTClient client,String token);
+    
+    public abstract DTToken autenticate(String token);
 
-    public abstract String saveToken(DTClient clinet, DTSecurityUser user);
+    public abstract DTToken saveToken(DTClient clinet, DTSecurityUser user);
+    
+    public abstract DTToken getToken(DTClient client, DTSecurityUser user);
+    
+    public abstract DTClient getClientByTitle(String title);
+    
 
 }
