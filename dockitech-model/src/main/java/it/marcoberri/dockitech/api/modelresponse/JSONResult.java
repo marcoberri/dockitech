@@ -1,11 +1,14 @@
 package it.marcoberri.dockitech.api.modelresponse;
 
+import it.marcoberri.dockitech.model.DTBase;
 import it.marcoberri.dockitech.resources.Configuration;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -24,7 +27,37 @@ public class JSONResult implements Serializable {
     private boolean success = true;
     private String api_version = "UNDEFINED";
     private Date ts = new Date();
+    private List<String> errors;
+    private DTBase data;
 
+
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(DTBase data) {
+        this.data = data;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
+    public void addError(String error){
+	
+	if(this.errors == null)
+	    errors = new ArrayList<String>();
+	this.errors.add(error);
+    }
+    
     public String getApi_version() {
 	return api_version;
     }

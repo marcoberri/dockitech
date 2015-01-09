@@ -12,6 +12,8 @@ import javax.swing.text.DefaultTextUI;
 
 public abstract class AbstractAdapter {
 
+    public abstract AbstractAdapter openSession();
+
     public abstract DTClient createWorld(DTClient client);
 
     public abstract void dropWorld();
@@ -37,6 +39,8 @@ public abstract class AbstractAdapter {
     public abstract DTToken autenticate(DTClient client,String token);
     
     public abstract DTToken autenticate(String token);
+    
+    public abstract DTToken autenticate(String client, String nickname, String password);
 
     public abstract DTToken saveToken(DTClient clinet, DTSecurityUser user);
     

@@ -42,6 +42,19 @@ public class MongoAdapter extends AbstractAdapter {
 
     static Logger log = LogManager.getLogger(MongoAdapter.class);
 
+    
+    @Override
+    public AbstractAdapter openSession() {
+
+	if (datastore == null) {
+	    initAdapter(null);
+	}
+	
+	return this;
+    }
+    
+    
+    
     public DTDocument addDocument(DTDocument doc) {
 
 	if (datastore == null) {
@@ -288,7 +301,12 @@ public class MongoAdapter extends AbstractAdapter {
 
 	return saveToken(client,  user);
 	
-	
+    }
+    
+    @Override
+    public DTToken autenticate(String client, String nickname, String password) {
+	final DTClient dtclient = this.getClientByTitle(client);
+	return autenticate( dtclient,  nickname,  password);
     }
 
     @Override

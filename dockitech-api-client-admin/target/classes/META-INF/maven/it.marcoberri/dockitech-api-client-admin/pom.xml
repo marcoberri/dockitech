@@ -1,15 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>it.marcoberri</groupId>
-    <artifactId>dockitech</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>dockitech-api-client-admin</artifactId>
-  
-  
-  <dependencies>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>it.marcoberri</groupId>
+		<artifactId>dockitech</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>dockitech-api-client-admin</artifactId>
 
+
+	<dependencies>
+
+		<dependency>
+			<groupId>it.marcoberri</groupId>
+			<artifactId>dockitech-api-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -18,7 +23,7 @@
 			<scope>test</scope>
 		</dependency>
 
-</dependencies>
-  
-  
+	</dependencies>
+
+
 </project>

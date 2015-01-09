@@ -85,17 +85,6 @@
 			<version>${commons-io.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${org.springframework.security-version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${org.springframework.security-version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -187,5 +176,21 @@
 			<version>${org.springframework.boot-version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>it.marcoberri</groupId>
+			<artifactId>dockitech-api-client</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>it.marcoberri</groupId>
+			<artifactId>dockitech-api-client-admin</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 </project>

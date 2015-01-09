@@ -176,5 +176,21 @@
 			<version>${org.springframework.boot-version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>it.marcoberri</groupId>
+			<artifactId>dockitech-api-client</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>it.marcoberri</groupId>
+			<artifactId>dockitech-api-client-admin</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 </project>
