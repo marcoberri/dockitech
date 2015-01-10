@@ -7,6 +7,7 @@ public class CollectionNames {
     public static final String COLLECTION_FILES = "files";
     public static final String COLLECTION_TEXT = "texts";
     public static final String COLLECTION_DOCUMENT_CONTEXT = "contexts";
+public static final String COLLECTION_LANGUAGE ="languages";
 
     public static final String SYSTEM_CLIENT = "sys.client";
     public static final String SYSTEM_TOKEN = "sys.token";
