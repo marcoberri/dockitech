@@ -93,7 +93,6 @@ public class DTText extends DTBase {
 	}
 
 	public String getValueEncryptFromEncryptKey(String key) {
-
 		return map.get(key);
 	}
 

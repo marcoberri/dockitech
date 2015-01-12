@@ -2,17 +2,16 @@ package it.marcoberri.dockitech.adapter;
 
 import it.marcoberri.dockitech.model.DTClient;
 import it.marcoberri.dockitech.model.DTDocument;
+import it.marcoberri.dockitech.model.DTLanguage;
 import it.marcoberri.dockitech.model.DTSecurityUser;
 import it.marcoberri.dockitech.model.DTText;
 import it.marcoberri.dockitech.model.DTToken;
 
 import java.util.Properties;
 
-import javax.swing.text.DefaultTextUI;
-
 public abstract class AbstractAdapter {
 
-    public abstract AbstractAdapter openSession();
+    public abstract AbstractAdapter getSession();
 
     public abstract DTClient createWorld(DTClient client);
 
@@ -27,8 +26,6 @@ public abstract class AbstractAdapter {
     public abstract DTDocument getDocumentByTitle(DTClient client, String titlePlain, String lang, boolean withFile);
 
     public abstract DTSecurityUser getUserByNick(DTClient client, String nickname);
-
-    public abstract void initAdapter(Properties p);
 
     public abstract DTText saveText(DTClient client, String text);
 
@@ -47,6 +44,8 @@ public abstract class AbstractAdapter {
     public abstract DTToken getToken(DTClient client, DTSecurityUser user);
     
     public abstract DTClient getClientByTitle(String title);
+    
+    public abstract DTLanguage isLangEnable(DTClient client, String lang);
     
 
 }

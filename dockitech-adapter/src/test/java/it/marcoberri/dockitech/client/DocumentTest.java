@@ -17,16 +17,18 @@ import org.junit.Test;
 
 public class DocumentTest {
 
+    final MongoAdapter adapter = new MongoAdapter();
+    
     @Test
     public void addDocument() throws IOException {
 
-	final MongoAdapter adapter = new MongoAdapter();
+	
+	adapter.getSession();
 
 	final String title = "first document title test";
 	final String description = "first document title test";
 
-	DTClient client = new DTClient();
-	client.setTitle("WORLD");
+	DTClient client = new DTClient("WORLD");
 	client = adapter.createWorld(client);
 	Assert.assertNotNull(client);
 
@@ -37,8 +39,8 @@ public class DocumentTest {
 	doc.addSecurityUser(user);
 	doc.setSecurityGroup(doc.getSecurityGroup());
 
-	doc.setTitle(new DTText(client, title));
-	doc.setDescription(new DTText(client, description));
+	doc.setTitle(new DTText(client, "EN", title));
+	doc.setDescription(new DTText(client, "EN", description));
 
 	final File file = new File(this.getClass().getResource("/sunrise.jpeg").getPath());
 	doc.setFile(file);
@@ -51,12 +53,12 @@ public class DocumentTest {
 	final DTDocument docResult = adapter.addDocument(doc);
 	Assert.assertNotNull("doc is null", docResult);
 
-	final DTDocument resultFindDoc = adapter.getDocumentByTitle(client, title);
+	final DTDocument resultFindDoc = adapter.getDocumentByTitle(client, title, "EN");
 	Assert.assertNotNull("doc retirved is null", resultFindDoc);
 
-	Assert.assertTrue("title not match" + title + " !=" + resultFindDoc.getTitle().getValueFromDecryptKey(client.getDefaultLang()), title.equals(resultFindDoc.getTitle().getValueFromDecryptKey(client.getDefaultLang())));
+	Assert.assertTrue("title not match" + title + " !=" + resultFindDoc.getTitle().getValueFromDecryptKey("EN"), title.equals(resultFindDoc.getTitle().getValueFromDecryptKey("EN")));
 
-	Assert.assertTrue("description not match" + description + " !=" + resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang()), description.equals(resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang())));
+	Assert.assertTrue("description not match" + description + " !=" + resultFindDoc.getDescription().getValueFromDecryptKey("EN"), description.equals(resultFindDoc.getDescription().getValueFromDecryptKey("EN")));
 
 	adapter.dropWorld();
     }

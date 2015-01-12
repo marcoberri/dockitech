@@ -31,8 +31,12 @@ public class DockitectApiClient {
         this.client = client;
     }
 
+    public DockitectApiClient(String url) {
+	this.url = url;
+	this.restAdapter = new RestAdapter.Builder().setEndpoint(url).build();
+    }
     public DockitectApiClient(String url, String client, String nickname, String password) {
-	super();
+	
 	this.url = url;
 	this.username = nickname;
 	this.password = password;

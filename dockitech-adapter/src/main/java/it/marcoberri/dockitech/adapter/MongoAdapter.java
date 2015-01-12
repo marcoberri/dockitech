@@ -3,31 +3,24 @@ package it.marcoberri.dockitech.adapter;
 import it.marcoberri.dockitech.model.DTClient;
 import it.marcoberri.dockitech.model.DTDocument;
 import it.marcoberri.dockitech.model.DTEncryptionMethod;
+import it.marcoberri.dockitech.model.DTLanguage;
 import it.marcoberri.dockitech.model.DTSecurityGroup;
 import it.marcoberri.dockitech.model.DTSecurityUser;
 import it.marcoberri.dockitech.model.DTText;
 import it.marcoberri.dockitech.model.DTToken;
-import it.marcoberri.dockitech.resources.CollectionNames;
-import it.marcoberri.dockitech.resources.Configuration;
 import it.marcoberri.dockitech.resources.FieldsName;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 
-import com.mongodb.MongoClient;
-import com.mongodb.ServerAddress;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
@@ -35,34 +28,56 @@ import com.mongodb.gridfs.GridFSInputFile;
 public class MongoAdapter extends AbstractAdapter {
 
     private Datastore datastore;
-
     private GridFS gridFS;
-
     private String dbName;
 
     static Logger log = LogManager.getLogger(MongoAdapter.class);
 
-    
+    // set default language
+    private final List<String> languagesDefault = new ArrayList<String>() {
+	private static final long serialVersionUID = 1L;
+
+	{
+	    add("IT");
+	    add("EN");
+	    add("FR");
+	    add("DE");
+	}
+    };
+
+    // setting enc Method
+    private final ArrayList<String> encMethod = new ArrayList<String>() {
+	private static final long serialVersionUID = 1L;
+
+	{
+	    add("it.marcoberri.dockitech.security.NullSecurity");
+	    add("it.marcoberri.dockitech.security.Base64Security");
+	    add("it.marcoberri.dockitech.security.CipherSecurity");
+	}
+    };
+
     @Override
-    public AbstractAdapter openSession() {
+    public AbstractAdapter getSession() {
 
 	if (datastore == null) {
-	    initAdapter(null);
+	     datastore = MongoDBHelper.INSTANCE.getDatastore();
+	     gridFS = MongoDBHelper.INSTANCE.getGridFS();
+	     dbName = MongoDBHelper.INSTANCE.getDbName();
 	}
-	
+
 	return this;
     }
+
     
-    
-    
+
     public DTDocument addDocument(DTDocument doc) {
 
 	if (datastore == null) {
-	    initAdapter(null);
+	    getSession();
 	}
 
 	if (doc.getByteFile() != null && doc.getFile() != null) {
-	    final GridFSInputFile gfsFile = gridFS.createFile(doc.getByteFile());
+	    final GridFSInputFile gfsFile = this.gridFS.createFile(doc.getByteFile());
 	    gfsFile.setFilename(doc.getFileNameEncrypt());
 	    gfsFile.setContentType(doc.getContentTypeEncrypt());
 	    gfsFile.save();
@@ -91,21 +106,17 @@ public class MongoAdapter extends AbstractAdapter {
 
     }
 
+    
+    public DTClient createWorld(String client) {
+	DTClient clientObj = new DTClient(client);
+	return createWorld(clientObj);
+    }
     @Override
     public DTClient createWorld(DTClient client) {
 
 	if (datastore == null) {
-	    initAdapter(null);
+	    getSession();
 	}
-
-	// setting enc Method
-	final ArrayList<String> encMethod = new ArrayList<String>() {
-	    {
-		add("it.marcoberri.dockitech.security.NullSecurity");
-		add("it.marcoberri.dockitech.security.Base64Security");
-		add("it.marcoberri.dockitech.security.CipherSecurity");
-	    }
-	};
 
 	for (String s : encMethod) {
 	    final DTEncryptionMethod enc = new DTEncryptionMethod();
@@ -140,6 +151,14 @@ public class MongoAdapter extends AbstractAdapter {
 
 	datastore.save(client);
 
+	for (String l : languagesDefault) {
+	    DTLanguage lang = new DTLanguage();
+	    lang.setClient(client);
+	    lang.setLanguage(l);
+	    lang.setEnable(true);
+	    datastore.save(lang);
+	}
+
 	return client;
     }
 
@@ -148,7 +167,7 @@ public class MongoAdapter extends AbstractAdapter {
 
 	// TODO
 	if (datastore == null) {
-	    initAdapter(null);
+	    getSession();
 	}
 
 	datastore.getMongo().dropDatabase(this.dbName);
@@ -175,25 +194,28 @@ public class MongoAdapter extends AbstractAdapter {
     public DTDocument getDocumentByTitle(DTClient client, String titlePlain, String lang, boolean withFile) {
 
 	if (datastore == null) {
-	    initAdapter(null);
+	    getSession();
 	}
 
 	if (titlePlain == null) {
+	    log.error("getDocumentByTitle --> title is null");
 	    return null;
 	    // TODO exception
 	}
 
-	if (lang == null)
+	if (lang == null){
+	    log.warn("MongoAdapter.getDocumentByTitle --> Lang is null set to default:" + client.getDefaultLang());
 	    lang = client.getDefaultLang();
-
+	}
+	
 	final DTDocument docFilter = new DTDocument(client);
 	docFilter.setTitle(new DTText(client, titlePlain));
 	lang = docFilter.encrypt(lang, client);
 
 	final Query<DTText> query = datastore.createQuery(DTText.class);
-	query.filter(FieldsName.TEXT_CLIENT + " = ", client).filter(FieldsName.TEXT_VALUE + "." + lang + " = ", docFilter.getTitle().getValueEncryptFromEncryptKey(lang));
+	query.filter(FieldsName.TEXT_CLIENT + " = ", client).filter(FieldsName.TEXT_VALUE + "." + lang + "=", docFilter.getTitle().getValueEncryptFromEncryptKey(lang));
 
-	log.debug("query -->" + query.toString());
+	log.debug("getDocumentByTitle.query -->" + query.toString());
 
 	DTText title = query.get();
 
@@ -225,53 +247,7 @@ public class MongoAdapter extends AbstractAdapter {
 	return datastore.createQuery(DTSecurityUser.class).filter(FieldsName.SECURITYUSER_NICKNAME + " = ", user.getNicknameEncrypt()).filter(FieldsName.SECURITYUSER_CLIENT + " = ", client).get();
     }
 
-    @Override
-    public void initAdapter(Properties p) {
-
-	try {
-	    Properties properties = Configuration.readPropertiesFile("/store.properties");
-	    log.info("Load properties:" + properties);
-	    initMongo(properties);
-	} catch (final IOException e) {
-	    log.fatal("MongoAdapter.initAdapter -->", e);
-	    e.printStackTrace();
-	}
-
-    }
-
-    private void initMongo(Properties p) {
-
-	final String s = p.getProperty("dockitech.db.hosts", "localhost");
-
-	final List<String> servers_host = Arrays.asList(s.split(","));
-
-	final List<ServerAddress> serveHostList = new ArrayList<ServerAddress>();
-
-	for (String sName : servers_host) {
-	    String name = sName.split(":")[0];
-	    int port = 27017;
-	    if (sName.indexOf(":") > -1) {
-		port = Integer.parseInt(sName.split(":")[1]);
-	    }
-
-	    try {
-		serveHostList.add(new ServerAddress(name, port));
-	    } catch (final UnknownHostException e) {
-		log.fatal("MongoAdapter.initMongo -->", e);
-	    }
-
-	}
-
-	this.dbName = p.getProperty("dockitech.db.name", "test");
-
-	final MongoClient mongoClient = new MongoClient(serveHostList);
-
-	final Morphia morphia = new Morphia();
-	morphia.mapPackage("it.marcoberri.dockitech.model");
-	this.datastore = morphia.createDatastore(mongoClient, this.dbName);
-	this.gridFS = new GridFS(datastore.getDB(), CollectionNames.COLLECTION_FILES);
-
-    }
+   
 
     @Override
     public DTText saveText(DTClient client, String text) {
@@ -280,11 +256,20 @@ public class MongoAdapter extends AbstractAdapter {
 
     @Override
     public DTText saveText(DTClient client, String lang, String text) {
-	if (lang == null)
-	    lang = client.getDefaultLang();
+
+	if (isLangEnable(client, lang) == null) {
+	    log.error("Lang [" + lang + "] for client [" + client.getTitle() + "] not found or not enable");
+	    return null;
+	}
+
 	final DTText textObject = new DTText(client, lang, text);
 	datastore.save(textObject);
 	return textObject;
+    }
+
+    @Override
+    public DTLanguage isLangEnable(DTClient client, String lang) {
+	return datastore.createQuery(DTLanguage.class).filter(FieldsName.LANGUAGE_CLIENT + " = ", client.getTitle()).filter(FieldsName.LANGUAGE_ENABLE + " = ", true).filter(FieldsName.LANGUAGE_LANG + " = ", lang.toUpperCase()).get();
     }
 
     @Override
@@ -298,15 +283,14 @@ public class MongoAdapter extends AbstractAdapter {
 	if (!user.verifyPasswordPlain(password))
 	    return null;
 
+	return saveToken(client, user);
 
-	return saveToken(client,  user);
-	
     }
-    
+
     @Override
     public DTToken autenticate(String client, String nickname, String password) {
 	final DTClient dtclient = this.getClientByTitle(client);
-	return autenticate( dtclient,  nickname,  password);
+	return autenticate(dtclient, nickname, password);
     }
 
     @Override
@@ -321,14 +305,14 @@ public class MongoAdapter extends AbstractAdapter {
 
     @Override
     public DTToken saveToken(DTClient client, DTSecurityUser user) {
-	
-	final DTToken verifyToken = getToken( client,  user);
 
-	if(verifyToken != null){
+	final DTToken verifyToken = getToken(client, user);
+
+	if (verifyToken != null) {
 	    return verifyToken;
 	}
-	
-	DTToken token = new DTToken();
+
+	final DTToken token = new DTToken();
 	token.setClient(client);
 	token.setUser(user);
 	datastore.save(token);
@@ -338,15 +322,15 @@ public class MongoAdapter extends AbstractAdapter {
 
     public DTToken getToken(DTClient client, DTSecurityUser user) {
 
-	final DTToken verifyToken = datastore.createQuery(DTToken.class).filter(FieldsName.SYSTEM_TOKEN_USER + " = ", user).filter(FieldsName.SYSTEM_TOKEN_CLIENT + " = ", client).filter(FieldsName.SYSTEM_TOKEN_VALID + " = ", true).get();    
+	final DTToken verifyToken = datastore.createQuery(DTToken.class).filter(FieldsName.SYSTEM_TOKEN_USER + " = ", user).filter(FieldsName.SYSTEM_TOKEN_CLIENT + " = ", client).filter(FieldsName.SYSTEM_TOKEN_VALID + " = ", true).get();
 
-	if(verifyToken != null){
+	if (verifyToken != null) {
 	    return verifyToken;
 	}
 
 	return null;
     }
-    
+
     @Override
     public DTClient getClientByTitle(String title) {
 	return datastore.createQuery(DTClient.class).filter(FieldsName.CLIENT_TITLE + " = ", title).get();

@@ -11,8 +11,8 @@ public class AdminTest extends BaseTest {
     
     @Test
     public void createAndDeleteWord(){
-	DockitectApiAdmin client = new DockitectApiAdmin(TESTURL, "test","username", "password");
-	
+	DockitectApiAdmin client = new DockitectApiAdmin(TESTURL);
+	client.createWorld("WORLD");
 	
     }
     

@@ -36,5 +36,31 @@ public class DTLanguage extends DTBase {
 
 	@Property(FieldsName.LANGUAGE_ENABLE)
 	private boolean enable;
+
+	public DTClient getClient() {
+	    return client;
+	}
+
+	public void setClient(DTClient client) {
+	    this.client = client;
+	}
+
+	public String getLanguage() {
+	    return decrypt(this.language, client);
+	}
+
+	public void setLanguage(String language) {
+	    this.language = encrypt(language, client);
+	}
+
+	public boolean isEnable() {
+	    return enable;
+	}
+
+	public void setEnable(boolean enable) {
+	    this.enable = enable;
+	}
+	
+	
 	
 }

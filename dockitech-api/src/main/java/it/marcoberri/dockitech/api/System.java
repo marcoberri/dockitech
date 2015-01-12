@@ -1,5 +1,6 @@
 package it.marcoberri.dockitech.api;
 
+import it.marcoberri.dockitech.adapter.MongoAdapter;
 import it.marcoberri.dockitech.api.modelresponse.JSONResult;
 import it.marcoberri.dockitech.resources.PathNames;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class System {
 
     static Logger log = LogManager.getLogger(System.class);
+    final MongoAdapter adapter = new MongoAdapter();
 
     @RequestMapping(value = "/" + PathNames.STATUS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody

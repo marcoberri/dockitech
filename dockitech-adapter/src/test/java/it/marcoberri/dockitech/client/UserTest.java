@@ -18,15 +18,18 @@ import org.junit.Test;
 
 public class UserTest {
 
+    
+    final MongoAdapter adapter = new MongoAdapter();
+    
     @Test
     public void addDocument() throws IOException {
 
-	final MongoAdapter adapter = new MongoAdapter();
+	adapter.getSession();
+	
 	final String title = "first document title test";
 	final String description = "first document title test";
 
-	DTClient client = new DTClient();
-	client.setTitle("WORLD");
+	DTClient client = new DTClient("WORLD");
 	client = adapter.createWorld(client);
 	Assert.assertNotNull(client);
 
@@ -64,12 +67,11 @@ public class UserTest {
     @Test
     public void addMassiveDocument() throws IOException {
 
-	final MongoAdapter adapter = new MongoAdapter();
+	adapter.getSession();
 	final String title = "first document title test";
 	final String description = "first document title test";
 
-	DTClient client = new DTClient();
-	client.setTitle("WORLD");
+	DTClient client = new DTClient("WORLD");
 	client = adapter.createWorld(client);
 	Assert.assertNotNull(client);
 
@@ -112,10 +114,9 @@ public class UserTest {
     @Test
     public void autenticate() throws IOException {
 
-	final MongoAdapter adapter = new MongoAdapter();
+	adapter.getSession();
 
-	DTClient client = new DTClient();
-	client.setTitle("WORLD");
+	DTClient client = new DTClient("WORLD");
 	client = adapter.createWorld(client);
 	Assert.assertNotNull(client);
 

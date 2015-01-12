@@ -22,13 +22,15 @@ public class User {
 
     final JSONResult res = new JSONResult();
 
+    final MongoAdapter adapter = new MongoAdapter();
+
     @RequestMapping(value = PathNames.AUTENTICATE, method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     JSONResult autenticatebyUsernamePassword(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username, String password) {
 
-	MongoAdapter adapter = new MongoAdapter();
-	adapter = (MongoAdapter) adapter.openSession();
-	DTToken token = adapter.autenticate(clientTitle, username, password);
+	adapter.getSession();
+
+	final DTToken token = adapter.autenticate(clientTitle, username, password);
 
 	if (token == null) {
 	    res.setSuccess(false);
@@ -41,11 +43,19 @@ public class User {
 
     }
 
-    @RequestMapping(value = PathNames.AUTENTICATE_TOKEN, method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = PathNames.AUTENTICATE_TOKEN + "/{" + PathNames.AUTENTICATE_TOKEN_CODE + "}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    JSONResult autenticateToken(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username, String password) {
+    JSONResult autenticateToken(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, @PathVariable(PathNames.AUTENTICATE_TOKEN_CODE) String token) {
+	adapter.getSession();
+	final DTToken tokenObj = adapter.autenticate(token);
+	if (tokenObj != null) {
+	    res.setData(tokenObj);
+	    res.setSuccess(true);
+	    return res;
+	}
+	res.setSuccess(false);
+	res.addError("Token [" + token + "] not valid");
 
-	res.setSuccess(true);
 	return res;
 
     }

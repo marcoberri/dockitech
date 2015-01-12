@@ -12,7 +12,6 @@ import org.mongodb.morphia.annotations.Indexed;
 import org.mongodb.morphia.annotations.PrePersist;
 import org.mongodb.morphia.annotations.Property;
 import org.mongodb.morphia.annotations.Reference;
-import org.mongodb.morphia.annotations.Transient;
 import org.mongodb.morphia.utils.IndexDirection;
 
 @Entity(value = CollectionNames.SYSTEM_CLIENT, noClassnameStored = true)
@@ -22,6 +21,9 @@ public class DTClient extends DTBase {
 	super();
 	// TODO Auto-generated constructor stub
     }
+     public DTClient(String title){
+	 this.title = title;
+     }
 
     @Indexed(value = IndexDirection.ASC, unique = true, dropDups = true)
     @Property(FieldsName.CLIENT_TITLE)

@@ -8,11 +8,12 @@ import org.junit.Test;
 
 public class AdminTest {
 
+    MongoAdapter adapter = new MongoAdapter();
+    
     @Test
     public void generateAndDeleteWorld() {
-	MongoAdapter adapter = new MongoAdapter();
-	final DTClient client = new DTClient();
-	client.setTitle("WORLD");
+	adapter.getSession();
+	final DTClient client = new DTClient("WORLD");
 	final DTClient result = adapter.createWorld(client);
 	Assert.assertNotNull(result);
 	adapter.dropWorld();
