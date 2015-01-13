@@ -2,6 +2,10 @@ package it.marcoberri.dockitech.apiclient;
 
 import it.marcoberri.dockitech.api.modelresponse.JSONResult;
 import it.marcoberri.dockitech.model.DTToken;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import retrofit.RestAdapter;
 
 public class DockitectApiClient {
@@ -15,6 +19,11 @@ public class DockitectApiClient {
     private boolean auth = false;
     private String url;
 
+    
+    final DockitectApiClientInterface service;
+    
+    static Logger log = LogManager.getLogger(DockitectApiClient.class);
+    
     public RestAdapter getRestAdapter() {
         return restAdapter;
     }
@@ -34,6 +43,7 @@ public class DockitectApiClient {
     public DockitectApiClient(String url) {
 	this.url = url;
 	this.restAdapter = new RestAdapter.Builder().setEndpoint(url).build();
+	service = restAdapter.create(DockitectApiClientInterface.class);
     }
     public DockitectApiClient(String url, String client, String nickname, String password) {
 	
@@ -41,8 +51,9 @@ public class DockitectApiClient {
 	this.username = nickname;
 	this.password = password;
 
-	this.restAdapter = new RestAdapter.Builder().setEndpoint(url).build();
-	final DockitectApiClientInterface service = restAdapter.create(DockitectApiClientInterface.class);
+	this.restAdapter = RestAdapterDispatcher.getClientRestAdapter(null,url);
+	
+	service = restAdapter.create(DockitectApiClientInterface.class);
 	final JSONResult result = service.autenticate(client, nickname, password);
 	if(result.isSuccess()){
 	    final DTToken token = (DTToken) result.getData();

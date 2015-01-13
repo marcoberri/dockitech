@@ -7,15 +7,13 @@ import it.marcoberri.dockitech.model.DTSecurityUser;
 import it.marcoberri.dockitech.model.DTText;
 import it.marcoberri.dockitech.model.DTToken;
 
-import java.util.Properties;
-
 public abstract class AbstractAdapter {
 
     public abstract AbstractAdapter getSession();
 
     public abstract DTClient createWorld(DTClient client);
 
-    public abstract void dropWorld();
+    public abstract void dropUniverse();
 
     public abstract DTDocument getDocumentByTitle(DTClient client, String titlePlain);
 

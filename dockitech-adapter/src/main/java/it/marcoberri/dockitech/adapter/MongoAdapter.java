@@ -163,7 +163,7 @@ public class MongoAdapter extends AbstractAdapter {
     }
 
     @Override
-    public void dropWorld() {
+    public void dropUniverse() {
 
 	// TODO
 	if (datastore == null) {

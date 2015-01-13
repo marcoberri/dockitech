@@ -11,6 +11,7 @@ public class PathNames {
     public static final String AUTENTICATE_TOKEN_CODE = "code";
     public static final String SYSTEM = "system";
     public static final String STATUS = "status";
-    public static final String CREATE_WORLD = "create_world";
+    public static final String CREATE_WORLD = "createWorld";
+    public static final String DROP_UNIVERSE = "dropUniverse";
 
 }

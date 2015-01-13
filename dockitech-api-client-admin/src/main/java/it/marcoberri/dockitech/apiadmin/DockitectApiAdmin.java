@@ -2,16 +2,22 @@ package it.marcoberri.dockitech.apiadmin;
 
 import it.marcoberri.dockitech.api.modelresponse.JSONResult;
 import it.marcoberri.dockitech.apiclient.DockitectApiClient;
-import it.marcoberri.dockitech.model.DTToken;
-import retrofit.RestAdapter;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DockitectApiAdmin extends DockitectApiClient {
 
+    
+    final DockitectApiAdminInterface service;
+    
+    static Logger log = LogManager.getLogger(DockitectApiAdmin.class);
+    
+    
     public DockitectApiAdmin(String url) {
 	super(url);
-	setRestAdapter(new RestAdapter.Builder().setEndpoint(url).build());
-	final DockitectApiAdminInterface service = getRestAdapter().create(DockitectApiAdminInterface.class);
-	
+	setRestAdapter(RestAdapterDispatcher.getClientRestAdapter(null, url));
+	service = getRestAdapter().create(DockitectApiAdminInterface.class);
     }
     
     
@@ -31,10 +37,16 @@ public class DockitectApiAdmin extends DockitectApiClient {
     
     
     public boolean createWorld(String client){
-	final DockitectApiAdminInterface service = getRestAdapter().create(DockitectApiAdminInterface.class);
 	final JSONResult result = service.createword(client);
-	return true;
+	return result.isSuccess();
 	
     }
+    
+    public boolean dropUniverse(){
+	final JSONResult result = service.dropUniverse();
+	return result.isSuccess();
+    }
+    
+    
 
 }

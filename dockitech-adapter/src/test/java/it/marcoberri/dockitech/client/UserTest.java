@@ -61,7 +61,7 @@ public class UserTest {
 
 	Assert.assertTrue("description not match" + description + " !=" + resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang()), description.equals(resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang())));
 
-	adapter.dropWorld();
+	adapter.dropUniverse();
     }
 
     @Test
@@ -108,7 +108,7 @@ public class UserTest {
 	    Assert.assertTrue("description not match" + description_ext + " !=" + resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang()), description_ext.equals(resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang())));
 	}
 
-	adapter.dropWorld();
+	adapter.dropUniverse();
     }
 
     @Test
@@ -137,7 +137,7 @@ public class UserTest {
 
 	Assert.assertTrue("tokens not match", firstToken.equals(secondToken));
 
-	adapter.dropWorld();
+	adapter.dropUniverse();
     }
 
 }

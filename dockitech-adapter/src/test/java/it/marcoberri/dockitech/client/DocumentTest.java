@@ -60,7 +60,7 @@ public class DocumentTest {
 
 	Assert.assertTrue("description not match" + description + " !=" + resultFindDoc.getDescription().getValueFromDecryptKey("EN"), description.equals(resultFindDoc.getDescription().getValueFromDecryptKey("EN")));
 
-	adapter.dropWorld();
+	adapter.dropUniverse();
     }
 
 }

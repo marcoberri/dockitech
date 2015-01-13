@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan("it.marcoberri.dockitect.api")
+@ComponentScan
 public class Application {
 
     public static void main(String[] args) {

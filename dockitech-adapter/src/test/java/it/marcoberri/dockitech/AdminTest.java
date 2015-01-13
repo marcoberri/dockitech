@@ -11,12 +11,12 @@ public class AdminTest {
     MongoAdapter adapter = new MongoAdapter();
     
     @Test
-    public void generateAndDeleteWorld() {
+    public void generatewordAndDropUniverse() {
 	adapter.getSession();
 	final DTClient client = new DTClient("WORLD");
 	final DTClient result = adapter.createWorld(client);
 	Assert.assertNotNull(result);
-	adapter.dropWorld();
+	adapter.dropUniverse();
 
     }
 

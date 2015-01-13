@@ -22,7 +22,6 @@ public class System {
     @RequestMapping(value = "/" + PathNames.STATUS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     JSONResult status() {
-
 	final JSONResult res = new JSONResult();
 	res.setSuccess(true);
 	return res;

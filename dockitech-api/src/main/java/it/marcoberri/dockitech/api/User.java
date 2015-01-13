@@ -27,7 +27,7 @@ public class User {
     @RequestMapping(value = PathNames.AUTENTICATE, method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     JSONResult autenticatebyUsernamePassword(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, String username, String password) {
-
+	log.debug("User.autenticatebyUsernamePassword() --> start");
 	adapter.getSession();
 
 	final DTToken token = adapter.autenticate(clientTitle, username, password);
@@ -46,6 +46,7 @@ public class User {
     @RequestMapping(value = PathNames.AUTENTICATE_TOKEN + "/{" + PathNames.AUTENTICATE_TOKEN_CODE + "}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     JSONResult autenticateToken(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle, @PathVariable(PathNames.AUTENTICATE_TOKEN_CODE) String token) {
+	log.debug("User.autenticateToken() --> start");
 	adapter.getSession();
 	final DTToken tokenObj = adapter.autenticate(token);
 	if (tokenObj != null) {
