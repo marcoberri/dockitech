@@ -10,8 +10,6 @@
 	<context:annotation-config />
 	<context:component-scan base-package="it.marcoberri.dockitech.api" />
 	<mvc:annotation-driven />
-	
-	<bean id="customAuthenticationProvider" class="it.marcoberri.dockitech.api.auth.DockitechAuthenticationProvider" />
 		
 </beans>
   
