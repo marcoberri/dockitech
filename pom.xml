@@ -15,6 +15,7 @@
 		<module>dockitech-api-client</module>
 		<module>dockitech-api-client-admin</module>
 	    <module>dockitech-cron</module>
+	    <module>dockitech-admin-console</module>
   </modules>
 
 	<properties>

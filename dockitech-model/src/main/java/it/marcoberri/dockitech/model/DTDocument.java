@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import javax.jws.Oneway;
 
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Indexed;
 import org.mongodb.morphia.annotations.PostPersist;
 import org.mongodb.morphia.annotations.PrePersist;
 import org.mongodb.morphia.annotations.Property;
@@ -33,6 +35,7 @@ public class DTDocument extends DTBase {
     }
 
     @Reference(FieldsName.DOC_TITLE)
+    @Indexed
     private DTText title;
 
     @Reference(FieldsName.DOC_DESCRIPTION)
@@ -45,6 +48,7 @@ public class DTDocument extends DTBase {
     private Date lastsystemUpdate = new Date();
 
     @Reference(FieldsName.DOC_CLIENT)
+    @Indexed
     private DTClient client;
 
     @Reference(FieldsName.DOC_CREATOR)
@@ -349,6 +353,11 @@ public class DTDocument extends DTBase {
 
     public void setLength(long length) {
 	this.length = length;
+    }
+
+    @Override
+    public String toString() {
+	return "DTDocument [title=" + title + ", description=" + description + ", tags=" + tags + ", lastsystemUpdate=" + lastsystemUpdate + ", client=" + client + ", creator=" + creator + ", cretorDate=" + cretorDate + ", lastModifier=" + lastModifier + ", lastModifierDate=" + lastModifierDate + ", securityGroup=" + securityGroup + ", securityUser=" + securityUser + ", publish=" + publish + ", publisher=" + publisher + ", publisherDate=" + publisherDate + ", contentType=" + contentType + ", fileName=" + fileName + ", fileId=" + fileId + ", length=" + length + ", file=" + file + ", byteFile=" + Arrays.toString(byteFile) + ", version=" + version + ", history=" + history + "]";
     }
 
 }

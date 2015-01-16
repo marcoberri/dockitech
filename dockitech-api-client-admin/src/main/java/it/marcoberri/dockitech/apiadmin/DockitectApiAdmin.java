@@ -39,7 +39,6 @@ public class DockitectApiAdmin extends DockitectApiClient {
     public boolean createWorld(String client){
 	final JSONResult result = service.createword(client);
 	return result.isSuccess();
-	
     }
     
     public boolean dropUniverse(){

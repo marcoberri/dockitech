@@ -23,9 +23,11 @@ public class DTPermissionGroup extends DTBase {
     private DTEncryptionMethod encryptClass;
 
     @Reference(FieldsName.PERMISSION_GROUP_USER)
+    @Indexed
     private DTSecurityGroup group;
     
     @Reference(FieldsName.PERMISSION_GROUP_CLIENT)
+    @Indexed
     private DTClient client;
     
     @Property(FieldsName.PERMISSION_GROUP_OBJECT)

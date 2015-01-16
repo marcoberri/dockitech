@@ -1,5 +1,7 @@
 package it.marcoberri.dockitech.adapter;
 
+import java.util.List;
+
 import it.marcoberri.dockitech.model.DTClient;
 import it.marcoberri.dockitech.model.DTDocument;
 import it.marcoberri.dockitech.model.DTLanguage;
@@ -12,7 +14,11 @@ public abstract class AbstractAdapter {
     public abstract AbstractAdapter getSession();
 
     public abstract DTClient createWorld(DTClient client);
+    
+    public abstract List<DTClient> getClientList();
 
+    public abstract void createUniverse();
+    
     public abstract void dropUniverse();
 
     public abstract DTDocument getDocumentByTitle(DTClient client, String titlePlain);

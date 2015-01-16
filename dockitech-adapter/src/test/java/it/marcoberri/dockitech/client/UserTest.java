@@ -13,25 +13,37 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class UserTest {
 
-    
     final MongoAdapter adapter = new MongoAdapter();
-    
+    DTClient client;
+
+    @After
+    public void after() {
+	adapter.dropUniverse();
+
+    }
+
+    @Before
+    public void before() {
+	adapter.createUniverse();
+	client = new DTClient("WORLD");
+	client = adapter.createWorld(client);
+	Assert.assertNotNull(client);
+    }
+
     @Test
     public void addDocument() throws IOException {
 
 	adapter.getSession();
-	
+
 	final String title = "first document title test";
 	final String description = "first document title test";
-
-	DTClient client = new DTClient("WORLD");
-	client = adapter.createWorld(client);
-	Assert.assertNotNull(client);
 
 	final DTSecurityUser user = adapter.getUserByNick(client, "admin");
 	Assert.assertNotNull(user);
@@ -61,24 +73,18 @@ public class UserTest {
 
 	Assert.assertTrue("description not match" + description + " !=" + resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang()), description.equals(resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang())));
 
-	adapter.dropUniverse();
     }
 
     @Test
     public void addMassiveDocument() throws IOException {
 
 	adapter.getSession();
+
 	final String title = "first document title test";
 	final String description = "first document title test";
 
-	DTClient client = new DTClient("WORLD");
-	client = adapter.createWorld(client);
-	Assert.assertNotNull(client);
-
 	final DTSecurityUser user = adapter.getUserByNick(client, "admin");
 	Assert.assertNotNull(user);
-
-	
 
 	final File file = new File(this.getClass().getResource("/sunrise.jpeg").getPath());
 	Path path = Paths.get(file.getAbsolutePath());
@@ -108,17 +114,12 @@ public class UserTest {
 	    Assert.assertTrue("description not match" + description_ext + " !=" + resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang()), description_ext.equals(resultFindDoc.getDescription().getValueFromDecryptKey(client.getDefaultLang())));
 	}
 
-	adapter.dropUniverse();
     }
 
     @Test
     public void autenticate() throws IOException {
 
 	adapter.getSession();
-
-	DTClient client = new DTClient("WORLD");
-	client = adapter.createWorld(client);
-	Assert.assertNotNull(client);
 
 	final DTClient clientLoaded = adapter.getClientByTitle("WORLD");
 	Assert.assertNotNull(clientLoaded);
@@ -137,7 +138,6 @@ public class UserTest {
 
 	Assert.assertTrue("tokens not match", firstToken.equals(secondToken));
 
-	adapter.dropUniverse();
     }
 
 }

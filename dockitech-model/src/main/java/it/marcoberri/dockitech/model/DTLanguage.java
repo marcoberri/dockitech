@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Indexed;
 import org.mongodb.morphia.annotations.Property;
 import org.mongodb.morphia.annotations.Reference;
 
@@ -29,9 +30,11 @@ public class DTLanguage extends DTBase {
 	}
 
 	@Reference(FieldsName.LANGUAGE_CLIENT)
+	@Indexed
 	private DTClient client;
 
 	@Property(FieldsName.LANGUAGE_LANG)
+	@Indexed
 	private String language;
 
 	@Property(FieldsName.LANGUAGE_ENABLE)

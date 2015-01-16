@@ -37,7 +37,7 @@ public class User {
 	    res.addError("username/passoword/client not found - token not generated");
 	    return res;
 	}
-	res.setData(token);
+	res.addData(token);
 	res.setSuccess(true);
 	return res;
 
@@ -50,7 +50,7 @@ public class User {
 	adapter.getSession();
 	final DTToken tokenObj = adapter.autenticate(token);
 	if (tokenObj != null) {
-	    res.setData(tokenObj);
+	    res.addData(tokenObj);
 	    res.setSuccess(true);
 	    return res;
 	}

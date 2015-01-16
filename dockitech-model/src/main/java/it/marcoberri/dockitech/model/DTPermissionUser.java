@@ -23,12 +23,14 @@ public class DTPermissionUser extends DTBase {
     private DTEncryptionMethod encryptClass;
 
     @Reference(FieldsName.PERMISSION_USER_USER)
+    @Indexed
     private DTSecurityUser user;
     
     @Reference(FieldsName.PERMISSION_USER_CLIENT)
     private DTClient client;
     
     @Property(FieldsName.PERMISSION_USER_OBJECT)
+    @Indexed
     private String object;
     
     @Property(FieldsName.PERMISSION_USER_OBJECT_ID)

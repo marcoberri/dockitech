@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Indexed;
 import org.mongodb.morphia.annotations.Property;
 import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.annotations.Version;
@@ -35,6 +36,7 @@ public class DTDocumentContext extends DTBase {
     private Date lastsystemUpdate = new Date();
 
     @Reference(FieldsName.DOC_CONTEXT_CLIENT)
+    @Indexed
     private DTClient client;
 
     @Reference(FieldsName.DOC_CONTEXT_CREATOR)

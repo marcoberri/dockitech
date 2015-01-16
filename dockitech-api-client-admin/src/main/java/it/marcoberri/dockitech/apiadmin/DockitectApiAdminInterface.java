@@ -10,6 +10,9 @@ public interface DockitectApiAdminInterface  {
     @GET(value = "/" + PathNames.ADMIN + "/" + PathNames.CREATE_WORLD + "/{" + PathNames.CLIENT_TITLE + "}")
     public JSONResult createword(@Path(PathNames.CLIENT_TITLE) String client);
     
+    @GET(value = "/" + PathNames.ADMIN + "/" + PathNames.CLIENT_LIST)
+    public JSONResult getClientList();
+
     @GET(value = "/" + PathNames.ADMIN + "/" + PathNames.DROP_UNIVERSE)
     public JSONResult dropUniverse();
     

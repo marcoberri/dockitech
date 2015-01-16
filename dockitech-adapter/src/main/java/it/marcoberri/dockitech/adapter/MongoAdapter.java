@@ -111,9 +111,11 @@ public class MongoAdapter extends AbstractAdapter {
 	DTClient clientObj = new DTClient(client);
 	return createWorld(clientObj);
     }
+    
     @Override
-    public DTClient createWorld(DTClient client) {
-
+    public void createUniverse() {
+	
+	
 	if (datastore == null) {
 	    getSession();
 	}
@@ -122,6 +124,16 @@ public class MongoAdapter extends AbstractAdapter {
 	    final DTEncryptionMethod enc = new DTEncryptionMethod();
 	    enc.setEncryptClass(s);
 	    datastore.save(enc);
+	}
+
+	
+    }
+    
+    @Override
+    public DTClient createWorld(DTClient client) {
+
+	if (datastore == null) {
+	    getSession();
 	}
 
 	// load encrypt method default
@@ -150,7 +162,7 @@ public class MongoAdapter extends AbstractAdapter {
 	datastore.save(userAdmin);
 
 	datastore.save(client);
-
+	
 	for (String l : languagesDefault) {
 	    DTLanguage lang = new DTLanguage();
 	    lang.setClient(client);
@@ -209,17 +221,18 @@ public class MongoAdapter extends AbstractAdapter {
 	}
 	
 	final DTDocument docFilter = new DTDocument(client);
-	docFilter.setTitle(new DTText(client, titlePlain));
+	docFilter.setTitle(new DTText(client, lang, titlePlain));
 	lang = docFilter.encrypt(lang, client);
 
 	final Query<DTText> query = datastore.createQuery(DTText.class);
-	query.filter(FieldsName.TEXT_CLIENT + " = ", client).filter(FieldsName.TEXT_VALUE + "." + lang + "=", docFilter.getTitle().getValueEncryptFromEncryptKey(lang));
+	query.disableValidation();
+	
+	query.filter(FieldsName.TEXT_CLIENT + " = ", client);
+	query.filter(FieldsName.TEXT_VALUE + "." + lang + " = ", docFilter.getTitle().getValueEncryptFromEncryptKey(lang));
 
 	log.debug("getDocumentByTitle.query -->" + query.toString());
-
+	    
 	DTText title = query.get();
-
-	log.debug("id -->" + title.getDocument().getId().toString());
 
 	final DTDocument docResult = datastore.createQuery(DTDocument.class).filter("_id = ", title.getDocument().getId()).get();
 
@@ -334,6 +347,13 @@ public class MongoAdapter extends AbstractAdapter {
     @Override
     public DTClient getClientByTitle(String title) {
 	return datastore.createQuery(DTClient.class).filter(FieldsName.CLIENT_TITLE + " = ", title).get();
+    }
+
+
+
+    @Override
+    public List<DTClient> getClientList() {
+	return datastore.createQuery(DTClient.class).asList();
     }
 
 }

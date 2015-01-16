@@ -23,6 +23,7 @@ public class DTSecurityGroup extends DTBase {
     private Date lastsystemUpdate = new Date();
 
     @Reference(FieldsName.SECURITYGROUP_CLIENT)
+    @Indexed
     private DTClient client;
 
     @Property(FieldsName.SECURITYGROUP_READ)

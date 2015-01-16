@@ -5,6 +5,8 @@ import it.marcoberri.dockitech.api.modelresponse.JSONResult;
 import it.marcoberri.dockitech.model.DTClient;
 import it.marcoberri.dockitech.resources.PathNames;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.MediaType;
@@ -33,7 +35,33 @@ public class Admin {
 	final DTClient clientObj = adapter.createWorld(clientTitle);
 	if (clientObj != null) {
 	    res.setSuccess(true);
-	    res.setData(clientObj);
+	    res.addData(clientObj);
+	    return res;
+	}
+
+	res.setSuccess(false);
+	res.addError("Error creating Client [" + clientTitle + "]");
+	return res;
+
+    }
+
+    
+    @RequestMapping(value = "/" + PathNames.CLIENT_LIST , method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    JSONResult clientList(@PathVariable(PathNames.CLIENT_TITLE) String clientTitle) {
+
+	log.debug("Admin.clientList() --> start");
+
+	adapter.getSession();
+	
+	
+	
+	
+	final List<DTClient> clients = adapter.getClientList();
+
+	if (clients != null) {
+	    res.setSuccess(true);
+	    res.setData(clients);
 	    return res;
 	}
 
@@ -57,5 +85,20 @@ public class Admin {
 	return res;
 
     }    
+    
+    @RequestMapping(value = "/" + PathNames.CREATE_UNIVERSE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    JSONResult createUniverse() {
+
+	log.debug("Admin.createUniverse() --> start");
+
+	adapter.getSession();
+	adapter.createUniverse();
+	
+	res.setSuccess(true);
+	return res;
+
+    }    
+    
 
 }

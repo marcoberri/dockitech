@@ -84,8 +84,9 @@ public final class FieldsName {
     public static final String PERMISSION_GROUP_ACTION = "EFD";
     public static final String PERMISSION_GROUP_AUTH = "SQA";
     public static final String PERMISSION_GROUP_TYPE = "QAZ";
-	public static final String LANGUAGE_CLIENT = "EWX";
-	public static final String LANGUAGE_LANG = "MOU";
-	public static final String LANGUAGE_ENABLE = "LLL";
-    
+    public static final String LANGUAGE_CLIENT = "EWX";
+    public static final String LANGUAGE_LANG = "MOU";
+    public static final String LANGUAGE_ENABLE = "LLL";
+    public static final String SECURITYUSER_SURNAME = "UPS";
+
 }

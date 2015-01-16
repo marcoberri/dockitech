@@ -3,6 +3,7 @@ package it.marcoberri.dockitech.api.modelresponse;
 import it.marcoberri.dockitech.model.DTBase;
 import it.marcoberri.dockitech.resources.Configuration;
 
+import java.beans.Transient;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -28,7 +29,9 @@ public class JSONResult implements Serializable {
     private String api_version = "UNDEFINED";
     private Date ts = new Date();
     private List<String> errors;
-    private DTBase data;
+    private List<DTBase> data;
+
+    private Pagination pages; 
 
 
     public List<String> getErrors() {
@@ -43,9 +46,19 @@ public class JSONResult implements Serializable {
         return data;
     }
 
-    public void setData(DTBase data) {
+    public void setData(List data) {
         this.data = data;
+        this.pages = new Pagination();
+        pages.setTotEle(data.size());
+        //TODO
     }
+    
+    public void addData(DTBase data) {
+	if(this.data == null)
+	    this.data = new ArrayList<DTBase>();
+        this.data.add(data);
+    }
+    
 
     public static long getSerialversionuid() {
         return serialVersionUID;

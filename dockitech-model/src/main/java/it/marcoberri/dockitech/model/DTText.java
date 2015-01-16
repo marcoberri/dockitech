@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Indexed;
 import org.mongodb.morphia.annotations.Property;
 import org.mongodb.morphia.annotations.Reference;
 
@@ -32,10 +33,12 @@ public class DTText extends DTBase {
 		super();
 	}
 
+	
 	@Reference(FieldsName.TEXT_CLIENT)
 	private DTClient client;
 
 	@Reference(FieldsName.TEXT_DOCUMENT)
+	@Indexed
 	private DTDocument document;
 
 	public DTDocument getDocument() {
@@ -54,7 +57,9 @@ public class DTText extends DTBase {
 		this.map = map;
 	}
 
+	
 	@Property(FieldsName.TEXT_VALUE)
+	@Indexed
 	private Map<String, String> map;
 
 	public DTClient getClient() {
@@ -104,6 +109,11 @@ public class DTText extends DTBase {
 	public String getLangEncrypt(String lang) {
 		lang = lang.toUpperCase();
 		return encrypt(lang, client);
+	}
+
+	@Override
+	public String toString() {
+	    return "DTText [client=" + client + ", document=" + document + ", map=" + map + "]";
 	}
 
 }

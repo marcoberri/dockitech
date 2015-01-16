@@ -12,25 +12,36 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class DocumentTest {
 
     final MongoAdapter adapter = new MongoAdapter();
-    
+    DTClient client;
+
+    @After
+    public void after() {
+	adapter.dropUniverse();
+    }
+
+    @Before
+    public void before() {
+	adapter.createUniverse();
+	client = new DTClient("WORLD");
+	client = adapter.createWorld(client);
+	Assert.assertNotNull(client);
+    }
+
     @Test
     public void addDocument() throws IOException {
 
-	
 	adapter.getSession();
 
 	final String title = "first document title test";
 	final String description = "first document title test";
-
-	DTClient client = new DTClient("WORLD");
-	client = adapter.createWorld(client);
-	Assert.assertNotNull(client);
 
 	final DTSecurityUser user = adapter.getUserByNick(client, "admin");
 	Assert.assertNotNull(user);
@@ -60,7 +71,6 @@ public class DocumentTest {
 
 	Assert.assertTrue("description not match" + description + " !=" + resultFindDoc.getDescription().getValueFromDecryptKey("EN"), description.equals(resultFindDoc.getDescription().getValueFromDecryptKey("EN")));
 
-	adapter.dropUniverse();
     }
 
 }

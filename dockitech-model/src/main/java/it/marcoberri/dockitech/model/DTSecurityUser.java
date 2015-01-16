@@ -28,13 +28,14 @@ public class DTSecurityUser extends DTBase {
     @Property(FieldsName.SECURITYUSER_NAME)
     private String name;
 
-    @Property(FieldsName.SECURITYUSER_USERNAME)
+    @Property(FieldsName.SECURITYUSER_SURNAME)
     private String surname;
 
     @Property(FieldsName.SECURITYUSER_PASSWORD)
     private String password;
 
     @Reference(FieldsName.SECURITYUSER_CLIENT)
+    @Indexed
     private DTClient client;
 
     @Reference(FieldsName.SECURITYUSER_GROUP)
@@ -53,6 +54,7 @@ public class DTSecurityUser extends DTBase {
     private boolean tokenTypeApp = !tokenTypeUser;
 
     @Transient
+    @Indexed
     private DTToken token = null;
 
     public DTToken getToken() {

@@ -1,5 +1,6 @@
 package it.marcoberri.dockitech.model;
 
+import org.mongodb.morphia.annotations.Indexed;
 import org.mongodb.morphia.annotations.Property;
 import org.mongodb.morphia.annotations.Reference;
 import org.mongodb.morphia.annotations.Transient;
@@ -20,6 +21,7 @@ public class DTTag extends DTBase {
     private DTClient client;
 
     @Property(FieldsName.TAG_VALUE)
+    @Indexed
     private String value;
 
     @Property(FieldsName.TAG_NORM)
@@ -51,6 +53,11 @@ public class DTTag extends DTBase {
 
     public void setSize(Integer size) {
 	this.size = size;
+    }
+
+    @Override
+    public String toString() {
+	return "DTTag [client=" + client + ", value=" + value + ", norm=" + norm + ", size=" + size + "]";
     }
 
 }

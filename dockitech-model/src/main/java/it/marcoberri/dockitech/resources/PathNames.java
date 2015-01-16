@@ -13,5 +13,7 @@ public class PathNames {
     public static final String STATUS = "status";
     public static final String CREATE_WORLD = "createWorld";
     public static final String DROP_UNIVERSE = "dropUniverse";
+    public static final String CLIENT_LIST = "clientlist";
+    public static final String CREATE_UNIVERSE = "createUniverse";
 
 }
